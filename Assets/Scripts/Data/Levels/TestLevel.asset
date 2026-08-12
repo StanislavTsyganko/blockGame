@@ -1,0 +1,302 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7171482f095fa7b4aa6282849c861fd5, type: 3}
+  m_Name: TestLevel
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  tilePaletteLayer1:
+  - {fileID: 11400000, guid: de920daca70b0b54387a53a59573fd3a, type: 2}
+  tilesLayer1:
+  - position: {x: -6, y: -4, z: 0}
+    tileID: 0
+  - position: {x: -6, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -6, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -6, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -6, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -6, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -6, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -6, y: 3, z: 0}
+    tileID: 0
+  - position: {x: -5, y: -4, z: 0}
+    tileID: 0
+  - position: {x: -5, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -5, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -5, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -5, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -5, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -5, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -5, y: 3, z: 0}
+    tileID: 0
+  - position: {x: -4, y: -4, z: 0}
+    tileID: 0
+  - position: {x: -4, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -4, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -4, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -4, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -4, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -4, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -4, y: 3, z: 0}
+    tileID: 0
+  - position: {x: -3, y: -4, z: 0}
+    tileID: 0
+  - position: {x: -3, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -3, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -3, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -3, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -3, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -3, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -3, y: 3, z: 0}
+    tileID: 0
+  - position: {x: -2, y: -4, z: 0}
+    tileID: 0
+  - position: {x: -2, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -2, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -2, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -2, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -2, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -2, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -2, y: 3, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -4, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -1, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -1, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -1, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -1, y: 3, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -4, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 0, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 0, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 0, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 0, y: 3, z: 0}
+    tileID: 0
+  - position: {x: 1, y: -4, z: 0}
+    tileID: 0
+  - position: {x: 1, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 1, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 1, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 1, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 1, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 1, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 1, y: 3, z: 0}
+    tileID: 0
+  - position: {x: 2, y: -4, z: 0}
+    tileID: 0
+  - position: {x: 2, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 2, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 2, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 2, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 2, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 2, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 2, y: 3, z: 0}
+    tileID: 0
+  - position: {x: 3, y: -4, z: 0}
+    tileID: 0
+  - position: {x: 3, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 3, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 3, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 3, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 3, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 3, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 3, y: 3, z: 0}
+    tileID: 0
+  - position: {x: 4, y: -4, z: 0}
+    tileID: 0
+  - position: {x: 4, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 4, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 4, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 4, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 4, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 4, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 4, y: 3, z: 0}
+    tileID: 0
+  - position: {x: 5, y: -4, z: 0}
+    tileID: 0
+  - position: {x: 5, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 5, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 5, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 5, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 5, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 5, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 5, y: 3, z: 0}
+    tileID: 0
+  tilePaletteLayer2:
+  - {fileID: 11400000, guid: 73b4eff13838ddf45bbc7af64cd15def, type: 2}
+  tilesLayer2:
+  - position: {x: -5, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -5, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -4, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -4, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -4, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -4, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -3, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -3, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -3, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -3, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -3, y: 2, z: 0}
+    tileID: 0
+  - position: {x: -2, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -2, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -2, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -2, y: 0, z: 0}
+    tileID: 0
+  - position: {x: -2, y: 1, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -4, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -3, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -2, z: 0}
+    tileID: 0
+  - position: {x: -1, y: -1, z: 0}
+    tileID: 0
+  - position: {x: -1, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -4, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 0, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 0, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 1, y: -3, z: 0}
+    tileID: 0
+  - position: {x: 1, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 1, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 1, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 1, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 2, y: -2, z: 0}
+    tileID: 0
+  - position: {x: 2, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 2, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 2, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 2, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 3, y: -1, z: 0}
+    tileID: 0
+  - position: {x: 3, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 3, y: 1, z: 0}
+    tileID: 0
+  - position: {x: 3, y: 2, z: 0}
+    tileID: 0
+  - position: {x: 4, y: 0, z: 0}
+    tileID: 0
+  - position: {x: 4, y: 1, z: 0}
+    tileID: 0
+  availablePieces:
+  - {fileID: 11400000, guid: ceb902770135a174496280517fd5f824, type: 2}
+  targetScore: 1000
+  movesLimit: 30
+  rows: 8
+  columns: 12
