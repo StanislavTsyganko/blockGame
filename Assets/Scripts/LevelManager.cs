@@ -2,17 +2,32 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
+    [Header("Managers")]
+    public PieceManager pieceManager;
+    public GridManager gridManager;
+    public CameraScaler cameraScaler;
+    [SerializeField] public UIManager _UIManager;
+
     [Header("References")]
-    public Tilemap targetTilemapLayer1;
-    public Tilemap targetTilemapLayer2;
+    public Tilemap backgroundTilemapLayer;
+    public Tilemap targetTilemapLayer;
     public LevelData currentLevel;
+    public TextMeshProUGUI endGameText;
 
     [Header("Animation")]
     public float tileAppearDelay = 0.03f;
     public bool animateTiles = true;
+
+    //private void Start()
+    //{
+    //    if (currentLevel != null)
+    //        ResolveCurrentLevel(currentLevel);
+    //}
 
     private void Start()
     {
@@ -24,73 +39,54 @@ public class LevelManager : MonoBehaviour
     {
         currentLevel = levelData;
 
-        ClearTilemaps();
+        if (!gridManager)
+            return;
+        gridManager.Initialize(currentLevel);
+        cameraScaler.Initialize(currentLevel, gridManager, _UIManager);
 
-        if (animateTiles)
-            StartCoroutine(AnimateLoadLevel(levelData));
+        gridManager.OnPiecePlaced.AddListener(HoldPiecePlacedEvent);
+        gridManager.SpawnGrid();
+
+        // wait for gridManager.loaded
+
+        if (pieceManager == null)
+            Debug.LogError("pieceManager не установлен для LevelManager");
         else
-            InstantLoadLevel(levelData);
-
-        Debug.Log($"[LevelManager] Уровень загружен: {levelData.targetScore} очков");
+            pieceManager.Initialize(currentLevel, gridManager, cameraScaler.placementObject.transform.position);
     }
 
-    private void ClearTilemaps()
+    public void HoldPiecePlacedEvent(Piece piece)
     {
-        targetTilemapLayer1?.ClearAllTiles();
-        targetTilemapLayer2?.ClearAllTiles();
-    }
-
-    private void InstantLoadLevel(LevelData data)
-    {
-        LoadLayer(targetTilemapLayer1, data.tilesLayer1, data.tilePaletteLayer1);
-        LoadLayer(targetTilemapLayer2, data.tilesLayer2, data.tilePaletteLayer2);
-    }
-
-    private void LoadLayer(Tilemap tilemap, List<TileData> tiles, TileBase[] palette)
-    {
-        if (tilemap == null || tiles == null || palette == null) return;
-        foreach (var tile in tiles)
-            if (tile.tileID >= 0 && tile.tileID < palette.Length)
-                tilemap.SetTile(tile.position, palette[tile.tileID]);
-    }
-
-    private IEnumerator AnimateLoadLevel(LevelData data)
-    {
-        var allTiles = new List<AnimatedTileData>();
-        CollectTilesForAnimation(data, targetTilemapLayer1, data.tilesLayer1, data.tilePaletteLayer1, allTiles);
-        CollectTilesForAnimation(data, targetTilemapLayer2, data.tilesLayer2, data.tilePaletteLayer2, allTiles);
-
-        allTiles.Sort((a, b) =>
+        bool placed = pieceManager.PlacePiece(piece);
+        if (CheckIfPassed())
         {
-            if (a.tile.position.y != b.tile.position.y)
-                return a.tile.position.y.CompareTo(b.tile.position.y);
-            return a.tile.position.x.CompareTo(b.tile.position.x);
-        });
-
-        foreach (var dataTile in allTiles)
+            endGameText.text = "Win!";
+            endGameText.gameObject.SetActive(true);
+        }
+        if (CheckIfFailed())
         {
-            if (dataTile.tilemap == null) continue;
-            dataTile.tilemap.SetTile(dataTile.tile.position, dataTile.palette[dataTile.tile.tileID]);
-            dataTile.tilemap.SetTileFlags(dataTile.tile.position, TileFlags.None);
-            dataTile.tilemap.SetColor(dataTile.tile.position, Color.yellow);
-            yield return new WaitForSeconds(tileAppearDelay);
-            dataTile.tilemap.SetColor(dataTile.tile.position, Color.white);
+            endGameText.text = "Lose";
+            endGameText.gameObject.SetActive(true);
         }
 
-        Debug.Log($"[LevelManager] Анимация завершена. Тайлов: {allTiles.Count}");
     }
 
-    private void CollectTilesForAnimation(LevelData data, Tilemap tilemap, List<TileData> tiles, TileBase[] palette, List<AnimatedTileData> list)
+    public bool CheckIfPassed()
     {
-        if (tilemap == null || tiles == null || palette == null) return;
-        foreach (var tile in tiles)
-            list.Add(new AnimatedTileData { tile = tile, tilemap = tilemap, palette = palette });
+        int notDectroyedCount = gridManager.GetNotDestroyedBackgorund().Count();
+
+        if(notDectroyedCount == 0)
+           return true;
+        return false;
     }
 
-    private class AnimatedTileData
+    public bool CheckIfFailed()
     {
-        public TileData tile;
-        public Tilemap tilemap;
-        public TileBase[] palette;
+        int notDectroyedCount = gridManager.GetNotDestroyedBackgorund().Count();
+        int activePiecesCount = pieceManager.activePieces.Count();
+
+        if (notDectroyedCount > 0 && activePiecesCount == 0)
+            return true;
+        return false;
     }
 }

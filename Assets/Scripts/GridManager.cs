@@ -1,44 +1,69 @@
-﻿using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 public class GridManager : MonoBehaviour
 {
     [Header("Основная сетка")]
-    [SerializeField] public Tilemap tilemap;
-    [SerializeField] private TileBase cellTile;
+    [SerializeField] public Tilemap backgroundTilemapLayer;
+    [SerializeField] private TileBase backgroundCellTile;
+
+    [Header("Целевая фигура")]
+    [SerializeField] private Tilemap targetTilemapLayer;
 
     [Header("Превью")]
-    [SerializeField] private Tilemap previewTilemap;
-    [SerializeField] private TileBase previewTile; // прозрачный тайл
+    [SerializeField] private Tilemap previewTilemapLayer;
+    [SerializeField] private TileBase previewCellTile;
 
-    [Header("Размеры")]
-    public int width = 10;
-    public int height = 10;
+    [Header("Animation")]
+    public float tileAppearDelay = 0.03f;
+    public bool animateTiles = true;
+
+    public bool gridLoaded = false;
+    public int maxX = 0, maxY = 0, minX = 0, minY = 0;
+
+    //private List<Cell> cells = new List<Cell>();.
 
     private List<Vector3Int> currentPreviewPositions = new List<Vector3Int>();
+    private LevelData currentLevelData;
 
-    // ──────────────────────────────────────────────────────────────
-    // Инициализация (вызывается из LevelManager)
-    // ──────────────────────────────────────────────────────────────
+    public UnityEvent<Piece> OnPiecePlaced;
 
     public void Initialize(LevelData levelData)
     {
+        ClearTilemaps();
+        currentLevelData = levelData;
         if (levelData != null)
         {
-            width = levelData.columns;
-            height = levelData.rows;
+            foreach (TileData tile in levelData.BackgroundTilesLayer)
+            {
+                if (tile.position.x > maxX) maxX = tile.position.x;
+                if (tile.position.y > maxY) maxY = tile.position.y;
+                if (tile.position.x < minX) minX = tile.position.x;
+                if (tile.position.y < minY) minY = tile.position.y;
+            }
         }
         ClearPreview();
+        if (OnPiecePlaced == null)
+            OnPiecePlaced = new UnityEvent<Piece>();
     }
 
-    // ──────────────────────────────────────────────────────────────
-    // Превью
-    // ──────────────────────────────────────────────────────────────
+    public void SpawnGrid()
+    {
+        if(!currentLevelData)
+            return;
+        if (animateTiles)
+            StartCoroutine(AnimateLoadLevel(currentLevelData));
+        else
+            InstantLoadLevel(currentLevelData);
+    }
 
     public void ShowPreview(Piece piece)
     {
-        if (piece == null || previewTilemap == null || previewTile == null)
+        if (piece == null || previewTilemapLayer == null || previewCellTile == null)
             return;
 
         ClearPreview();
@@ -46,20 +71,27 @@ public class GridManager : MonoBehaviour
         Vector3Int[] positions = GetPieceGridPositions(piece);
         foreach (Vector3Int pos in positions)
         {
-            if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height)
-                continue;
-            if (tilemap.HasTile(pos))
+            if (!backgroundTilemapLayer.HasTile(pos))
                 continue;
 
-            previewTilemap.SetTile(pos, previewTile);
+            previewTilemapLayer.SetTile(pos, previewCellTile);
             currentPreviewPositions.Add(pos);
         }
     }
 
+
+    private void ClearTilemaps()
+    {
+        backgroundTilemapLayer?.ClearAllTiles();
+        targetTilemapLayer?.ClearAllTiles();
+        previewTilemapLayer?.ClearAllTiles();
+    }
+
+
     public void ClearPreview()
     {
         foreach (Vector3Int pos in currentPreviewPositions)
-            previewTilemap.SetTile(pos, null);
+            previewTilemapLayer.SetTile(pos, null);
         currentPreviewPositions.Clear();
     }
 
@@ -67,6 +99,68 @@ public class GridManager : MonoBehaviour
     {
         ClearPreview();
         ShowPreview(piece);
+    }
+
+    private void InstantLoadLevel(LevelData data)
+    {
+        LoadLayer(backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, "background");
+        LoadLayer(targetTilemapLayer, data.TargetTilesLayer, data.TargetTilesPaletteLayer);
+        gridLoaded = true;
+    }
+
+    private void LoadLayer(Tilemap tilemap, List<TileData> tiles, TileBase[] palette, string cellType = null)
+    {
+        if (tilemap == null || tiles == null || palette == null) return;
+        foreach (var tile in tiles)
+            if (tile.tileID >= 0 && tile.tileID < palette.Length)
+            {
+                tilemap.SetTile(tile.position, palette[tile.tileID]);
+                //TileBase tileB = tilemap.GetTile(tile.position);
+                //Cell cell = tileB.AddComponent<Cell>();
+                //if (cellType != null)
+                    //cell.Initialize(tile.position, cellType);
+            }
+    }
+
+    private IEnumerator AnimateLoadLevel(LevelData data)
+    {
+        var allTiles = new List<AnimatedTileData>();
+        CollectTilesForAnimation(data, backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, allTiles);
+        CollectTilesForAnimation(data, targetTilemapLayer, data.TargetTilesLayer, data.TargetTilesPaletteLayer, allTiles);
+
+        allTiles.Sort((a, b) =>
+        {
+            if (a.tile.position.y != b.tile.position.y)
+                return a.tile.position.y.CompareTo(b.tile.position.y);
+            return a.tile.position.x.CompareTo(b.tile.position.x);
+        });
+
+        foreach (var dataTile in allTiles)
+        {
+            if (dataTile.tilemap == null) continue;
+            dataTile.tilemap.SetTile(dataTile.tile.position, dataTile.palette[dataTile.tile.tileID]);
+            dataTile.tilemap.SetTileFlags(dataTile.tile.position, TileFlags.None);
+            dataTile.tilemap.SetColor(dataTile.tile.position, Color.yellow);
+            yield return new WaitForSeconds(tileAppearDelay);
+            dataTile.tilemap.SetColor(dataTile.tile.position, Color.white);
+        }
+
+        gridLoaded = true;
+        Debug.Log($"[LevelManager] Анимация завершена. Тайлов: {allTiles.Count}");
+    }
+
+    private void CollectTilesForAnimation(LevelData data, Tilemap tilemap, List<TileData> tiles, TileBase[] palette, List<AnimatedTileData> list)
+    {
+        if (tilemap == null || tiles == null || palette == null) return;
+        foreach (var tile in tiles)
+            list.Add(new AnimatedTileData { tile = tile, tilemap = tilemap, palette = palette });
+    }
+
+    private class AnimatedTileData
+    {
+        public TileData tile;
+        public Tilemap tilemap;
+        public TileBase[] palette;
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -81,25 +175,39 @@ public class GridManager : MonoBehaviour
         Vector3Int[] positions = GetPieceGridPositions(piece);
         foreach (Vector3Int pos in positions)
         {
-            if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height)
-                return false;
-            if (tilemap.HasTile(pos))
-                return false;
+            if (backgroundTilemapLayer.GetTile(pos) && backgroundTilemapLayer.GetTile(pos) == backgroundCellTile)
+            {
+                //Cell cell = backgroundTilemapLayer.GetTile(pos).GetComponent<Cell>();
+                //if (cell != null && !cell.destroyed)
+                    return true;
+            }
         }
-        return true;
+        return false;
     }
 
-    public bool PlacePiece(Piece piece)
+    public void PlacePiece(Piece piece)
     {
         if (!CanPlace(piece))
-            return false;
+            return;
 
         Vector3Int[] positions = GetPieceGridPositions(piece);
         foreach (Vector3Int pos in positions)
-            tilemap.SetTile(pos, cellTile);
+        {
+            //Cell cell = backgroundTilemapLayer.GetTile(pos).GetComponent<Cell>();
+            //if (cell != null)
+                //if (!cell.destroyed)
+                //{
+                    //backgroundTilemapLayer.SetTile(pos, previewCellTile);
+                    //cell.destroyed = true;
+                //}
+            //else
+                //if (backgroundTilemapLayer.GetTile(pos) == backgroundCellTile)
+                if (backgroundTilemapLayer.HasTile(pos))
+                    backgroundTilemapLayer.SetTile(pos, previewCellTile);
+        }
 
         ClearPreview();
-        return true;
+        OnPiecePlaced.Invoke(piece);
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -118,7 +226,7 @@ public class GridManager : MonoBehaviour
 
         // Получаем позицию якоря на сетке (центр ячейки)
         Vector3 anchorWorld = piece.GetWorldPosition();
-        Vector3Int anchorGridPos = tilemap.WorldToCell(anchorWorld);
+        Vector3Int anchorGridPos = backgroundTilemapLayer.WorldToCell(anchorWorld);
 
         List<Vector3Int> positions = new List<Vector3Int>();
         for (int x = 0; x < w; x++)
@@ -136,6 +244,21 @@ public class GridManager : MonoBehaviour
     {
         if (piece == null || piece.pieceObj == null)
             return Vector3Int.zero;
-        return tilemap.WorldToCell(piece.pieceObj.transform.position);
+        return backgroundTilemapLayer.WorldToCell(piece.pieceObj.transform.position);
+    }
+
+    public Vector3Int[] GetNotDestroyedBackgorund()
+    {
+        List<Vector3Int> positions = new List<Vector3Int>();
+        foreach (TileData tileData in currentLevelData.BackgroundTilesLayer)
+        {
+            // todo Сделать Tile-compound class
+            TileBase tileBackground = backgroundTilemapLayer.GetTile(tileData.position);
+            TileBase tileTarget = targetTilemapLayer.GetTile(tileData.position);
+            if (tileBackground != null && tileBackground == backgroundCellTile && !tileTarget)
+                positions.Add(tileData.position);
+        }
+
+        return positions.ToArray();
     }
 }

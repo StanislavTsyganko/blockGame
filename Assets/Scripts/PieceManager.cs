@@ -1,69 +1,67 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public class PieceManager : MonoBehaviour
 {
     [Header("References")]
     public LevelData currentLevel;
+    private GridManager gridManager;
     public Tilemap targetTilemap;        
     public TileBase placedCellTile;             
+    public TileBase backgroundCellTile;             
 
     [Header("Sprites")]
     public Sprite cellSprite;             
-    public Sprite piecePlacementFrame;    
     public float cellSize = 1f;
-    public Vector3 spawnOffset = new Vector3(0, 3, 0);
+    private Vector3 spawnOffset = new Vector3(0, 3, 1);
 
     [Header("Level Settings")]
-    public int maxPieces = 3;
-
+    public int maxPieces;
     private List<PieceData> availablePieces = new List<PieceData>();
-    private List<Piece> activePieces = new List<Piece>();
+
+    public List<Piece> activePieces = new List<Piece>();
     private Piece activePiece;
 
-    private void Start()
-    {
-        if (currentLevel == null)
-        {
-            Debug.LogError("[PieceManager] currentLevel = null!");
-            return;
-        }
-
-        Initialize(currentLevel);
-        SpawnFigurePlacementFrame();
-    }
-
-    public void Initialize(LevelData levelData)
+    public void Initialize(LevelData levelData, GridManager gridManager, Vector3 figureSpawnPosition)
     {
         currentLevel = levelData;
+        this.gridManager = gridManager;
+        spawnOffset = figureSpawnPosition;
+        maxPieces = currentLevel.maxPieces;
         availablePieces.Clear();
 
         if (currentLevel.availablePieces != null)
             availablePieces.AddRange(currentLevel.availablePieces);
 
-        GeneratePieces();
+        GeneratePieces();        
     }
 
-    public void GeneratePieces()
+    public void GeneratePieces() // after level loaded
     {
         // Удаляем старые
         foreach (Piece piece in activePieces)
         {
             if (piece != null && !piece.isPlaced)
-                Destroy(piece.pieceObj);
+                piece.DestroyPiece();
         }
         activePieces.Clear();
 
-        for (int i = 0; i < maxPieces; i++)
+        int targetCellsCount = currentLevel.BackgroundTilesLayer.Count - currentLevel.TargetTilesLayer.Count;
+        int currentPieceCellsCount = 0;
+        // todo checkIfPieceIsolated -> may be more pieces needed
+        // todo dont spawn all pieces until neead may be 2 (curr + next)
+        for (int i = 0; i < maxPieces || currentPieceCellsCount < targetCellsCount * 1.2; i++)
         {
             PieceData randomPiece = GetRandomPiece();
             if (randomPiece != null)
             {
-                Vector3 offset = new Vector3(i * 2.5f, 0, 1);
-                Vector3 pos = spawnOffset + offset;
+                //Vector3 offset = new Vector3(i * 2.5f, 0, 1);
+                //Vector3 pos = spawnOffset + offset;
 
-                Piece piece = SpawnPiece(randomPiece, pos);
+                Piece piece = SpawnPiece(randomPiece, spawnOffset);
+                currentPieceCellsCount += piece.pieceData.BlockCount;
                 if (piece != null)
                 {
                     piece.SetActive(false);
@@ -89,26 +87,27 @@ public class PieceManager : MonoBehaviour
         piece.pieceObj.transform.position = position;
 
         // Инициализируем визуал и передаём менеджер
-        piece.Initialize(cellSprite, cellSize, this);
+        piece.Initialize(cellSprite, cellSize, this, gridManager);
+        if(gridManager)
+            piece.dragHandler.OnPiecePlacing.AddListener(gridManager.PlacePiece);
 
         return piece;
     }
 
-    public GameObject SpawnFigurePlacementFrame()
+    public void ResolveCurrentPiece()
     {
-        if (piecePlacementFrame == null)
+        if(activePiece == null)
         {
-            Debug.LogWarning("[PieceManager] piecePlacementFrame = null!");
-            return null;
+            if(activePieces.Count == 0)
+            {
+                Debug.Log(activePieces);
+                return;
+            }
+            Piece piece = activePieces[Random.Range(0, activePieces.Count)];
+            piece.SetActive(true);
+            if (piece.isActive)
+                activePiece = piece;
         }
-
-        GameObject frame = new GameObject("Frame");
-        SpriteRenderer sr = frame.AddComponent<SpriteRenderer>();
-        sr.sprite = piecePlacementFrame;
-        frame.transform.position = new Vector3(1, 1, 0);
-        frame.transform.localScale = Vector3.one;
-
-        return frame;
     }
 
     public PieceData GetRandomPiece()
@@ -123,26 +122,20 @@ public class PieceManager : MonoBehaviour
 
     public bool PlacePiece(Piece piece)
     {
-        PieceData pieceData = piece.pieceData;
-        int[,] shape = pieceData.GetShapeMatrix();
-        int w = pieceData.size.x;
-        int h = pieceData.size.y;
-
-        // Размещение
-        for (int x = 0; x < w; x++)
-            for (int y = 0; y < h; y++)
-                if (shape[x, y] == 1)
-                {
-                    Vector3Int pos = piece.GetGridPosition(targetTilemap) - piece.a - new Vector3Int(x, y, 0);
-                    targetTilemap.SetTile(pos, placedCellTile);
-                }
+        //List<Vector3Int> cellsPositions = piece.GetGridCellsPositions(targetTilemap);
+        //foreach(Vector3Int cellPos in cellsPositions)
+        //{
+        //    TileBase targetTile = targetTilemap.GetTile(cellPos);
+        //    if (targetTile != null && targetTile == backgroundCellTile)
+        //        targetTilemap.SetTile(cellPos, placedCellTile);
+        //}
+        
 
         piece.Place();
-
         activePieces.Remove(piece);
+        activePiece = null;
+        ResolveCurrentPiece();
         Debug.Log($"[PieceManager] Фигура размещена: {piece.pieceData.name}");
-        //GeneratePieces();
-
         return true;
     }
 

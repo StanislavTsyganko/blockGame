@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider2D))]
@@ -12,12 +13,16 @@ public class PieceDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     private GridManager gridManager;
     private const float FIXED_Z = 1f;
 
-    public void Initialize(Piece pieceRef, PieceManager manager = null)
+    public UnityEvent<Piece> OnPiecePlacing;
+
+    public void Initialize(Piece pieceRef, PieceManager pieceManager, GridManager gridManager)
     {
         piece = pieceRef;
-        pieceManager = manager;
+        this.pieceManager = pieceManager;
+        this.gridManager = gridManager;
         mainCamera = Camera.main;
-        gridManager = FindFirstObjectByType<GridManager>();
+        if (OnPiecePlacing == null)
+            OnPiecePlacing = new UnityEvent<Piece>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -53,21 +58,6 @@ public class PieceDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     {
         if (!isDragging) return;
         isDragging = false;
-
-        if (gridManager != null)
-            gridManager.ClearPreview();
-
-        if (pieceManager != null && piece != null)
-        {
-            bool placed = pieceManager.PlacePiece(piece);
-            if (!placed)
-            {
-                piece.SetPosition(startAnchorPosition, gridManager?.tilemap);
-            }
-        }
-        else
-        {
-            piece?.SetPosition(startAnchorPosition, gridManager?.tilemap);
-        }
+        OnPiecePlacing.Invoke(piece); // add event RemoveListener
     }
 }

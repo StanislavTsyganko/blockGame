@@ -6,32 +6,36 @@ using System.Collections.Generic;
 public class LevelData : ScriptableObject
 {
     [Header("Layer 1 - Background / Grid")]
-    public TileBase[] tilePaletteLayer1;
-    public List<TileData> tilesLayer1 = new List<TileData>();
+    public TileBase[] BackgroundTilesPaletteLayer;
+    public List<TileData> BackgroundTilesLayer = new List<TileData>();
 
     [Header("Layer 2 - Target Shape / Figure")]
-    public TileBase[] tilePaletteLayer2;
-    public List<TileData> tilesLayer2 = new List<TileData>();
+    public TileBase[] TargetTilesPaletteLayer;
+    public List<TileData> TargetTilesLayer = new List<TileData>();
 
     [Header("Available Figures")]
     public PieceData[] availablePieces;
+    public int maxPieces;
 
     [Header("Win Conditions")]
     public int targetScore = 1000;
     public int movesLimit = 30;
 
     [Header("Grid Settings")]
-    public int rows = 8;
-    public int columns = 8;
+    public int rows;
+    public int columns;
 
-    public int TotalTiles => tilesLayer1.Count + tilesLayer2.Count;
+    public int levelId;
+    public string levelDificulty;
+
+    public int TotalTiles => BackgroundTilesLayer.Count + TargetTilesLayer.Count;
 
     public void ClearAllData()
     {
-        tilesLayer1.Clear();
-        tilePaletteLayer1 = new TileBase[0];
-        tilesLayer2.Clear();
-        tilePaletteLayer2 = new TileBase[0];
+        BackgroundTilesLayer.Clear();
+        BackgroundTilesPaletteLayer = new TileBase[0];
+        TargetTilesLayer.Clear();
+        TargetTilesPaletteLayer = new TileBase[0];
         rows = 0;
         columns = 0;
     }
@@ -42,12 +46,12 @@ public class LevelData : ScriptableObject
         switch (index)
         {
             case 0:
-                tilePaletteLayer1 = palette;
-                tilesLayer1 = tiles;
+                BackgroundTilesPaletteLayer = palette;
+                BackgroundTilesLayer = tiles;
                 break;
             case 1:
-                tilePaletteLayer2 = palette;
-                tilesLayer2 = tiles;
+                TargetTilesPaletteLayer = palette;
+                TargetTilesLayer = tiles;
                 break;
         }
     }
@@ -56,8 +60,8 @@ public class LevelData : ScriptableObject
     {
         switch (index)
         {
-            case 0: return tilePaletteLayer1;
-            case 1: return tilePaletteLayer2;
+            case 0: return BackgroundTilesPaletteLayer;
+            case 1: return TargetTilesPaletteLayer;
             default: return new TileBase[0];
         }
     }
@@ -66,8 +70,8 @@ public class LevelData : ScriptableObject
     {
         switch (index)
         {
-            case 0: return tilesLayer1;
-            case 1: return tilesLayer2;
+            case 0: return BackgroundTilesLayer;
+            case 1: return TargetTilesLayer;
             default: return new List<TileData>();
         }
     }

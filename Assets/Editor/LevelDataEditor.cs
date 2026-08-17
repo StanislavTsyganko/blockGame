@@ -161,8 +161,8 @@ public class LevelDataEditor : Editor
         EditorGUILayout.LabelField("==== LEVEL INFO ====", headerStyle);
         EditorGUILayout.Space(5);
 
-        EditorGUILayout.LabelField($"📊 Layer 1: {levelData.tilesLayer1.Count} тайлов");
-        EditorGUILayout.LabelField($"📊 Layer 2: {levelData.tilesLayer2.Count} тайлов");
+        EditorGUILayout.LabelField($"📊 Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов");
+        EditorGUILayout.LabelField($"📊 Layer 2: {levelData.TargetTilesLayer.Count} тайлов");
         EditorGUILayout.LabelField($"📊 Всего: {levelData.TotalTiles}");
         EditorGUILayout.LabelField($"📐 Сетка: {levelData.rows} x {levelData.columns}");
         EditorGUILayout.LabelField($"🎯 Цель: {levelData.targetScore} очков");
@@ -181,8 +181,8 @@ public class LevelDataEditor : Editor
         }
 
         var result = TilemapSerializer.Export(sourceTilemapBackgroundLayer);
-        levelData.tilesLayer1 = result.tiles;
-        levelData.tilePaletteLayer1 = result.palette;
+        levelData.BackgroundTilesLayer = result.tiles;
+        levelData.BackgroundTilesPaletteLayer = result.palette;
         levelData.rows = result.rows;
         levelData.columns = result.columns;
 
@@ -201,15 +201,15 @@ public class LevelDataEditor : Editor
             return;
         }
 
-        if (levelData.tilesLayer1.Count == 0)
+        if (levelData.BackgroundTilesLayer.Count == 0)
         {
             EditorUtility.DisplayDialog("Нет данных!", "Layer 1 пуст.", "OK");
             return;
         }
 
-        TilemapSerializer.Import(sourceTilemapBackgroundLayer, levelData.tilePaletteLayer1, levelData.tilesLayer1);
-        Debug.Log($"[LevelDataEditor] Загружен Layer 1: {levelData.tilesLayer1.Count} тайлов");
-        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 1 загружен ({levelData.tilesLayer1.Count} тайлов)", "OK");
+        TilemapSerializer.Import(sourceTilemapBackgroundLayer, levelData.BackgroundTilesPaletteLayer, levelData.BackgroundTilesLayer);
+        Debug.Log($"[LevelDataEditor] Загружен Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов");
+        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 1 загружен ({levelData.BackgroundTilesLayer.Count} тайлов)", "OK");
     }
 
     private void ClearLayer1()
@@ -237,8 +237,8 @@ public class LevelDataEditor : Editor
         }
 
         var result = TilemapSerializer.Export(sourceTilemapTargetFigureLayer);
-        levelData.tilesLayer2 = result.tiles;
-        levelData.tilePaletteLayer2 = result.palette;
+        levelData.TargetTilesLayer = result.tiles;
+        levelData.TargetTilesPaletteLayer = result.palette;
 
         if (levelData.rows == 0 && levelData.columns == 0)
         {
@@ -261,15 +261,15 @@ public class LevelDataEditor : Editor
             return;
         }
 
-        if (levelData.tilesLayer2.Count == 0)
+        if (levelData.TargetTilesLayer.Count == 0)
         {
             EditorUtility.DisplayDialog("Нет данных!", "Layer 2 пуст.", "OK");
             return;
         }
 
-        TilemapSerializer.Import(sourceTilemapTargetFigureLayer, levelData.tilePaletteLayer2, levelData.tilesLayer2);
-        Debug.Log($"[LevelDataEditor] Загружен Layer 2: {levelData.tilesLayer2.Count} тайлов");
-        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 2 загружен ({levelData.tilesLayer2.Count} тайлов)", "OK");
+        TilemapSerializer.Import(sourceTilemapTargetFigureLayer, levelData.TargetTilesPaletteLayer, levelData.TargetTilesLayer);
+        Debug.Log($"[LevelDataEditor] Загружен Layer 2: {levelData.TargetTilesLayer.Count} тайлов");
+        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 2 загружен ({levelData.TargetTilesLayer.Count} тайлов)", "OK");
     }
 
     private void ClearLayer2()
@@ -298,8 +298,8 @@ public class LevelDataEditor : Editor
 
         EditorUtility.DisplayDialog("Готово!",
             $"✅ Экспортировано:\n" +
-            $"Layer 1: {levelData.tilesLayer1.Count} тайлов\n" +
-            $"Layer 2: {levelData.tilesLayer2.Count} тайлов",
+            $"Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов\n" +
+            $"Layer 2: {levelData.TargetTilesLayer.Count} тайлов",
             "OK");
     }
 
@@ -310,8 +310,8 @@ public class LevelDataEditor : Editor
 
         EditorUtility.DisplayDialog("Готово!",
             $"✅ Загружено:\n" +
-            $"Layer 1: {levelData.tilesLayer1.Count} тайлов\n" +
-            $"Layer 2: {levelData.tilesLayer2.Count} тайлов",
+            $"Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов\n" +
+            $"Layer 2: {levelData.TargetTilesLayer.Count} тайлов",
             "OK");
     }
 

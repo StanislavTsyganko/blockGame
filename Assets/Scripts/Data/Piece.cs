@@ -3,12 +3,13 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 using static UnityEngine.Audio.ProcessorInstance;
 
 public class Piece
 {
     public GameObject pieceObj { get; private set; }
-    public GameObject[] cells { get; private set; }
+    public List<GameObject> cells { get; private set; }
     public PieceDragHandler dragHandler { get; private set; }
     public PieceData pieceData { get; private set; }
 
@@ -34,6 +35,7 @@ public class Piece
 
         // --- DragHandler (будет проинициализирован позже) ---
         dragHandler = pieceObj.GetOrAddComponent<PieceDragHandler>();
+        cells = new List<GameObject>();
 
         isActive = false;
         isPlaced = false;
@@ -43,10 +45,10 @@ public class Piece
     /// <summary>
     /// Инициализация визуала и якоря
     /// </summary>
-    public void Initialize(Sprite sprite, float cellSize, PieceManager manager = null)
+    public void Initialize(Sprite sprite, float cellSize, PieceManager pieceManager = null, GridManager gridManager = null)
     {
         BuildVisual(sprite, cellSize);
-        dragHandler.Initialize(this, manager); // передаём менеджер
+        dragHandler.Initialize(this, pieceManager, gridManager); // передаём менеджер
     }
 
     private void BuildVisual(Sprite sprite, float cellSize)
@@ -67,11 +69,6 @@ public class Piece
                 0
             );
         }
-        else
-        {
-            Debug.LogWarning($"[Piece] Якорь не задан для {pieceData.name}. Используется (0,0)");
-            anchorOffset = Vector3.zero;
-        }
 
         for (int x = 0; x < width; x++)
         {
@@ -80,7 +77,7 @@ public class Piece
                 if (shape[x, y] == 1)
                 {
                     GameObject cell = new GameObject($"Cell_{x}_{y}");
-                    cells.Append(cell); // to GetGridCellsPositions
+                    cells.Add(cell);
                     cell.transform.SetParent(pieceObj.transform);
 
                     SpriteRenderer sr = cell.AddComponent<SpriteRenderer>();
@@ -142,35 +139,6 @@ public class Piece
     /// </summary>
     public void Place()
     {
-
-        // Собираем все позиции клеток относительно якоря
-        //for (int x = 0; x < w; x++)
-        //{
-        //    for (int y = 0; y < h; y++)
-        //    {
-        //        if (shape[x, y] == 1)
-        //        {
-        //            int offX = x - pieceData.anchorPosition.x;
-        //            int offY = y - pieceData.anchorPosition.y;
-        //            Vector3Int pos = gridPosition + new Vector3Int(offX, offY, 0);
-
-        //            // Проверка границ (берём размер сетки из cellBounds, можно заменить на свои переменные)
-        //            if (pos.x < 0 || pos.x >= targetTilemap.cellBounds.size.x ||
-        //                pos.y < 0 || pos.y >= targetTilemap.cellBounds.size.y)
-        //            {
-        //                Debug.LogError(targetTilemap.cellBounds.size);
-        //                return false;
-        //            }
-
-        //            if (targetTilemap.HasTile(pos))
-        //            {
-        //                Debug.LogError(targetTilemap.HasTile(pos));
-        //                return false;
-        //            }
-        //        }
-        //    }
-        //}
-
         isPlaced = true;
         isActive = false;
         DestroyPiece();
@@ -188,22 +156,18 @@ public class Piece
     }
 
     // Вспомогательный метод для получения позиции на сетке (например, для превью)
-    public Vector3Int[] GetGridCellsPositions(Tilemap targetTilemap)
+    public List<Vector3Int> GetGridCellsPositions(Tilemap targetTilemap)
     {
         int[,] shape = pieceData.GetShapeMatrix();
-        Vector3Int[] result = new Vector3Int[pieceData.BlockCount];
+        List<Vector3Int> result = new List<Vector3Int>();
         int w = pieceData.size.x;
         int h = pieceData.size.y;
         Vector3 center = GetWorldPosition();
 
-        // Размещение
-        for (int x = 0; x < w; x++)
-            for (int y = 0; y < h; y++)
-                if (shape[x, y] == 1)
-                {
-                    Vector3 position = new Vector3(x, y, 0);
-                    result[1] = targetTilemap.WorldToCell(center - position * cellSize);
-                }
+        foreach(GameObject cell in cells)
+        {
+            result.Add(targetTilemap.WorldToCell(cell.transform.position));
+        }
 
         return result;
     }

@@ -128,6 +128,8 @@ public class PieceDataEditor : Editor
                         // Одиночный клик — переключение состояния клетки (если не якорь)
                         if (!isAnchor)
                         {
+                            Debug.Log(index);
+                            Debug.Log(pieceData.cells);
                             pieceData.cells[index] = !isFilled;
                             EditorUtility.SetDirty(pieceData);
                             Event.current.Use();

@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI.Table;
 
@@ -7,37 +9,31 @@ public class CameraScaler : MonoBehaviour
     [Header("References")]
     [SerializeField] private Camera _camera;
     [SerializeField] private LevelData currentLevel;
+    [SerializeField] private Grid _grid;  
+    [SerializeField] private GridManager _gridManager;  
+    [SerializeField] private UIManager _UIManager;  
+    [SerializeField] private Tilemap _backgroundTilemap;
+    [SerializeField] public GameObject placementObject;
 
     [Header("Settings")]
     [SerializeField] private float padding = 1f; // Отступ от краёв карты
     [SerializeField] private float tileSize = 1f;
 
-    private void Start()
+    public void Initialize(LevelData level, GridManager gridManager, UIManager UIManager)
     {
-        if (currentLevel != null)
-        {
-            AdaptCameraToLevel(currentLevel);
-        }
-        else
-        {
-            Debug.LogWarning("[CameraScaler] LevelData не назначен! Использую ручные настройки.");
-        }
+        currentLevel = level;
+        _gridManager = gridManager;
+        _UIManager = UIManager;
+        AdaptCameraToLevel(currentLevel);
     }
 
-    // ============================================
-    // АДАПТАЦИЯ ПОД LevelData
-    // ============================================
-
-    public void AdaptCameraToLevel(LevelData levelData)
+    public void AdaptCameraToLevel(LevelData levelData) //todo fix
     {
         if (_camera == null)
         {
             _camera = Camera.main;
             if (_camera == null)
-            {
-                Debug.LogError("[CameraScaler] Камера не найдена!");
                 return;
-            }
         }
 
         if (!_camera.orthographic)
@@ -64,8 +60,8 @@ public class CameraScaler : MonoBehaviour
         }
 
         // Вычисляем размеры карты с отступами
-        float mapWidth = (columns + padding) * tileSize;
-        float mapHeight = (rows + padding) * tileSize;
+        float mapWidth = (columns + padding * 2) * tileSize;
+        float mapHeight = (rows + padding * 2) * tileSize;
 
         // Соотношение сторон экрана
         float screenAspect = (float)Screen.width / Screen.height;
@@ -74,8 +70,21 @@ public class CameraScaler : MonoBehaviour
         float sizeByHeight = mapHeight / 2f;
         float sizeByWidth = mapWidth / (2f * screenAspect);
 
-        // Выбираем максимальный размер, чтобы всё поместилось
         _camera.orthographicSize = Mathf.Max(sizeByHeight, sizeByWidth);
+        _camera.transform.position = new Vector3(0, 0, _camera.transform.position.z);
+
+        if (_grid != null)
+        {
+            float horizontal = Math.Abs(_gridManager.maxX + 1) - Math.Abs(_gridManager.minX);
+            float vertical = Math.Abs(_gridManager.maxY + 1) - Math.Abs(_gridManager.minY);
+            _grid.transform.position -= new Vector3(horizontal / 2, vertical / 2, 0);
+
+            float frameHeight = _camera.orthographicSize - mapHeight / 2 - 1;
+            float frameWidht = columns;
+            Vector3 framePosition = new Vector3(0, 0, _grid.transform.position.z) - new Vector3(0, rows / 2 + 1f + frameHeight / 2, 0);
+
+            placementObject = _UIManager.SpawnFigurePlacementFrame(frameHeight, frameWidht, framePosition);
+        }
 
         Debug.Log($"[CameraScaler] Камера настроена под уровень: {columns}x{rows}, size: {_camera.orthographicSize} {_camera}");
     }
