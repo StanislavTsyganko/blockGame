@@ -38,7 +38,7 @@ public class PieceManager : MonoBehaviour
         GeneratePieces();        
     }
 
-    public void GeneratePieces() // after level loaded
+    public void GeneratePieces() // after level loaded 
     {
         // Удаляем старые
         foreach (Piece piece in activePieces)
@@ -57,10 +57,7 @@ public class PieceManager : MonoBehaviour
             PieceData randomPiece = GetRandomPiece();
             if (randomPiece != null)
             {
-                //Vector3 offset = new Vector3(i * 2.5f, 0, 1);
-                //Vector3 pos = spawnOffset + offset;
-
-                Piece piece = SpawnPiece(randomPiece, spawnOffset);
+                Piece piece = SpawnPiece(randomPiece, spawnOffset); //todo spawn only of needed
                 currentPieceCellsCount += piece.pieceData.BlockCount;
                 if (piece != null)
                 {
@@ -100,7 +97,6 @@ public class PieceManager : MonoBehaviour
         {
             if(activePieces.Count == 0)
             {
-                Debug.Log(activePieces);
                 return;
             }
             Piece piece = activePieces[Random.Range(0, activePieces.Count)];
@@ -134,8 +130,7 @@ public class PieceManager : MonoBehaviour
         piece.Place();
         activePieces.Remove(piece);
         activePiece = null;
-        ResolveCurrentPiece();
-        Debug.Log($"[PieceManager] Фигура размещена: {piece.pieceData.name}");
+        ResolveCurrentPiece(); // todo spawn only if needed and in moment of spawn activate drag handler. after end 
         return true;
     }
 

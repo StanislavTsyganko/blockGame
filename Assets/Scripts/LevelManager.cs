@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Tilemaps;
+using static UnityEngine.Audio.ProcessorInstance;
 
 public class LevelManager : MonoBehaviour
 {
@@ -17,27 +18,32 @@ public class LevelManager : MonoBehaviour
     public Tilemap backgroundTilemapLayer;
     public Tilemap targetTilemapLayer;
     public LevelData currentLevel;
-    public TextMeshProUGUI endGameText;
 
     [Header("Animation")]
     public float tileAppearDelay = 0.03f;
     public bool animateTiles = true;
 
-    //private void Start()
-    //{
-    //    if (currentLevel != null)
-    //        ResolveCurrentLevel(currentLevel);
-    //}
-
     private void Start()
     {
-        if (currentLevel != null)
-            LoadLevel(currentLevel);
+        _UIManager.ShowLoading();
+        if (currentLevel == null)
+            ResolveCurrentLevel();
+        _UIManager.ShowMainMenu();
     }
 
-    public void LoadLevel(LevelData levelData)
+    public void OnPlayButtonClickedHandler()
     {
-        currentLevel = levelData;
+        if (currentLevel == null) 
+            ResolveCurrentLevel();
+        LoadLevel();
+    }
+
+    public void LoadLevel(LevelData levelData = null)
+    {
+        if (levelData == null)
+            ResolveCurrentLevel();
+        else
+            currentLevel = levelData;
 
         if (!gridManager)
             return;
@@ -60,14 +66,16 @@ public class LevelManager : MonoBehaviour
         bool placed = pieceManager.PlacePiece(piece);
         if (CheckIfPassed())
         {
-            endGameText.text = "Win!";
-            endGameText.gameObject.SetActive(true);
+            _UIManager.OnWin();
         }
         if (CheckIfFailed())
         {
-            endGameText.text = "Lose";
-            endGameText.gameObject.SetActive(true);
+            _UIManager.OnLose();
         }
+    }
+
+    public void ResolveCurrentLevel() // todo add level from memory
+    {
 
     }
 
