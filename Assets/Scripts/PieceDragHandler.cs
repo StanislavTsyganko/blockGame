@@ -21,13 +21,15 @@ public class PieceDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         this.pieceManager = pieceManager;
         this.gridManager = gridManager;
         mainCamera = Camera.main;
-        if (OnPiecePlacing == null)
-            OnPiecePlacing = new UnityEvent<Piece>();
+        //if (OnPiecePlacing == null)
+            //OnPiecePlacing = new UnityEvent<Piece>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (piece == null || mainCamera == null) return;
+        if (piece.isActive == false)
+            return;
 
         isDragging = true;
         startAnchorPosition = piece.GetWorldPosition();
@@ -58,6 +60,9 @@ public class PieceDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     {
         if (!isDragging) return;
         isDragging = false;
-        OnPiecePlacing.Invoke(piece); // add event RemoveListener
+        gridManager.PlacePiece(piece);
+        if (gridManager.PlacePiece(piece) == false)
+            piece.SetPosition(startAnchorPosition, null);
+        //OnPiecePlaced.Invoke(piece); // add eventListener Remove if init here
     }
 }

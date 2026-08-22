@@ -31,6 +31,7 @@ public class GridManager : MonoBehaviour
     private LevelData currentLevelData;
 
     public UnityEvent<Piece> OnPiecePlaced;
+    public UnityEvent OnMapLoaded;
 
     public void Initialize(LevelData levelData)
     {
@@ -47,8 +48,8 @@ public class GridManager : MonoBehaviour
             }
         }
         ClearPreview();
-        if (OnPiecePlaced == null)
-            OnPiecePlaced = new UnityEvent<Piece>();
+        //if (OnPiecePlaced == null)
+            //OnPiecePlaced = new UnityEvent<Piece>();
     }
 
     public void SpawnGrid()
@@ -59,6 +60,7 @@ public class GridManager : MonoBehaviour
             StartCoroutine(AnimateLoadLevel(currentLevelData));
         else
             InstantLoadLevel(currentLevelData);
+        OnMapLoaded.Invoke();
     }
 
     public void ShowPreview(Piece piece)
@@ -185,29 +187,37 @@ public class GridManager : MonoBehaviour
         return false;
     }
 
-    public void PlacePiece(Piece piece)
+    public bool PlacePiece(Piece piece)
     {
         if (!CanPlace(piece))
-            return;
+            return false;
 
-        Vector3Int[] positions = GetPieceGridPositions(piece);
-        foreach (Vector3Int pos in positions)
+        try 
         {
-            //Cell cell = backgroundTilemapLayer.GetTile(pos).GetComponent<Cell>();
-            //if (cell != null)
+            Vector3Int[] positions = GetPieceGridPositions(piece);
+            foreach (Vector3Int pos in positions)
+            {
+                //Cell cell = backgroundTilemapLayer.GetTile(pos).GetComponent<Cell>();
+                //if (cell != null)
                 //if (!cell.destroyed)
                 //{
-                    //backgroundTilemapLayer.SetTile(pos, previewCellTile);
-                    //cell.destroyed = true;
+                //backgroundTilemapLayer.SetTile(pos, previewCellTile);
+                //cell.destroyed = true;
                 //}
-            //else
+                //else
                 //if (backgroundTilemapLayer.GetTile(pos) == backgroundCellTile)
                 if (backgroundTilemapLayer.HasTile(pos))
                     backgroundTilemapLayer.SetTile(pos, previewCellTile);
-        }
+            }
 
-        ClearPreview();
-        OnPiecePlaced.Invoke(piece);
+            ClearPreview();
+            OnPiecePlaced.Invoke(piece);
+        }
+        catch
+        { 
+            return false; 
+        }
+        return true;
     }
 
     // ──────────────────────────────────────────────────────────────

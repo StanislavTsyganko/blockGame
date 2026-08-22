@@ -45,33 +45,26 @@ public class LevelManager : MonoBehaviour
         else
             currentLevel = levelData;
 
-        if (!gridManager)
-            return;
         gridManager.Initialize(currentLevel);
         cameraScaler.Initialize(currentLevel, gridManager, _UIManager);
+        pieceManager.Initialize(currentLevel, gridManager, cameraScaler.placementObject.transform.position, cameraScaler.placementObject.transform.position + new Vector3(5,0,0)); //todo get next spawn position + level mode globalizating
 
-        gridManager.OnPiecePlaced.AddListener(HoldPiecePlacedEvent);
         gridManager.SpawnGrid();
-
-        // wait for gridManager.loaded
-
-        if (pieceManager == null)
-            Debug.LogError("pieceManager не установлен для LevelManager");
-        else
-            pieceManager.Initialize(currentLevel, gridManager, cameraScaler.placementObject.transform.position);
     }
 
     public void HoldPiecePlacedEvent(Piece piece)
     {
-        bool placed = pieceManager.PlacePiece(piece);
         if (CheckIfPassed())
         {
             _UIManager.OnWin();
+            return;
         }
         if (CheckIfFailed())
         {
             _UIManager.OnLose();
+            return;
         }
+        pieceManager.ResolveCurrentPiece();
     }
 
     public void ResolveCurrentLevel() // todo add level from memory

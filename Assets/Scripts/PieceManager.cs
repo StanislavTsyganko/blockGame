@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEditor.PlayerSettings;
+using static UnityEngine.Audio.ProcessorInstance;
 
 public class PieceManager : MonoBehaviour
 {
@@ -15,64 +16,52 @@ public class PieceManager : MonoBehaviour
     [Header("Sprites")]
     public Sprite cellSprite;             
     public float cellSize = 1f;
-    private Vector3 spawnOffset = new Vector3(0, 3, 1);
+    private Vector3 currentPieceSpawnOffset = new Vector3(0, 3, 1);
+    private Vector3 nextPieceSpawnOffset = new Vector3(2, 3, 1);
 
     [Header("Level Settings")]
     public int maxPieces;
     private List<PieceData> availablePieces = new List<PieceData>();
 
-    public List<Piece> activePieces = new List<Piece>();
+    public List<PieceData> activePieces = new List<PieceData>();
     private Piece activePiece;
+    private Piece nextPiece;
 
-    public void Initialize(LevelData levelData, GridManager gridManager, Vector3 figureSpawnPosition)
+    public void Initialize(LevelData levelData, GridManager gridManager, Vector3 currentPieceSpawnOffset, Vector3 nextPieceSpawnOffset)
     {
         currentLevel = levelData;
         this.gridManager = gridManager;
-        spawnOffset = figureSpawnPosition;
+        this.currentPieceSpawnOffset = currentPieceSpawnOffset;
+        this.nextPieceSpawnOffset = nextPieceSpawnOffset;
         maxPieces = currentLevel.maxPieces;
         availablePieces.Clear();
 
         if (currentLevel.availablePieces != null)
             availablePieces.AddRange(currentLevel.availablePieces);
 
-        GeneratePieces();        
+        GeneratePieces();
     }
 
-    public void GeneratePieces() // after level loaded 
+    public void GeneratePieces()
     {
         // Удаляем старые
-        foreach (Piece piece in activePieces)
-        {
-            if (piece != null && !piece.isPlaced)
-                piece.DestroyPiece();
-        }
+        if(activePiece != null)
+            activePiece.DestroyPiece();
+        if(nextPiece != null)
+            nextPiece.DestroyPiece();
         activePieces.Clear();
 
         int targetCellsCount = currentLevel.BackgroundTilesLayer.Count - currentLevel.TargetTilesLayer.Count;
         int currentPieceCellsCount = 0;
         // todo checkIfPieceIsolated -> may be more pieces needed
-        // todo dont spawn all pieces until neead may be 2 (curr + next)
         for (int i = 0; i < maxPieces || currentPieceCellsCount < targetCellsCount * 1.2; i++)
         {
             PieceData randomPiece = GetRandomPiece();
             if (randomPiece != null)
             {
-                Piece piece = SpawnPiece(randomPiece, spawnOffset); //todo spawn only of needed
-                currentPieceCellsCount += piece.pieceData.BlockCount;
-                if (piece != null)
-                {
-                    piece.SetActive(false);
-                    activePieces.Add(piece);
-                }
+                currentPieceCellsCount += randomPiece.BlockCount;
+                activePieces.Add(randomPiece);
             }
-        }
-
-        // Активируем первую
-        if (activePieces.Count > 0)
-        {
-            activePiece = activePieces[0];
-            activePiece.SetActive(true);
-            Debug.Log($"[PieceManager] Активна: {activePiece.pieceData.name}");
         }
     }
 
@@ -83,10 +72,7 @@ public class PieceManager : MonoBehaviour
         Piece piece = new Piece(pieceData);
         piece.pieceObj.transform.position = position;
 
-        // Инициализируем визуал и передаём менеджер
         piece.Initialize(cellSprite, cellSize, this, gridManager);
-        if(gridManager)
-            piece.dragHandler.OnPiecePlacing.AddListener(gridManager.PlacePiece);
 
         return piece;
     }
@@ -97,13 +83,38 @@ public class PieceManager : MonoBehaviour
         {
             if(activePieces.Count == 0)
             {
+                Debug.Log("activePieces.Count == 0");
                 return;
             }
-            Piece piece = activePieces[Random.Range(0, activePieces.Count)];
-            piece.SetActive(true);
-            if (piece.isActive)
-                activePiece = piece;
+
+            int pieceDataIndex = Random.Range(0, activePieces.Count - 1);
+            PieceData pieceData = activePieces[pieceDataIndex];
+            if (nextPiece != null)
+            {
+                activePiece = nextPiece;
+                activePiece.SetPosition(currentPieceSpawnOffset);
+                nextPiece = SpawnPiece(pieceData, nextPieceSpawnOffset);
+                activePieces.RemoveAt(pieceDataIndex);
+                nextPiece.SetVisible(true);
+                nextPiece.SetScale(new Vector3(0.5f, 0.5f, 1f));
+            }
+            else 
+            {
+                activePiece = SpawnPiece(pieceData, currentPieceSpawnOffset);
+                activePieces.RemoveAt(pieceDataIndex);
+                if (activePieces.Count > 0)
+                {
+                    int nextPieceDataIndex = Random.Range(0, activePieces.Count);
+                    PieceData nextPieceData = activePieces[nextPieceDataIndex];
+                    nextPiece = SpawnPiece(nextPieceData, nextPieceSpawnOffset);
+                    activePieces.RemoveAt(nextPieceDataIndex);
+                    nextPiece.SetVisible(true);
+                    nextPiece.SetScale(new Vector3(0.5f, 0.5f, 1f));
+                }
+            }
         }
+        activePiece.SetActive(true);
+        activePiece.SetScale(new Vector3(1f, 1f, 1f));
     }
 
     public PieceData GetRandomPiece()
@@ -116,27 +127,12 @@ public class PieceManager : MonoBehaviour
         return availablePieces[Random.Range(0, availablePieces.Count)];
     }
 
-    public bool PlacePiece(Piece piece)
+    public void PlacePiece(Piece piece)
     {
-        //List<Vector3Int> cellsPositions = piece.GetGridCellsPositions(targetTilemap);
-        //foreach(Vector3Int cellPos in cellsPositions)
-        //{
-        //    TileBase targetTile = targetTilemap.GetTile(cellPos);
-        //    if (targetTile != null && targetTile == backgroundCellTile)
-        //        targetTilemap.SetTile(cellPos, placedCellTile);
-        //}
-        
 
         piece.Place();
-        activePieces.Remove(piece);
         activePiece = null;
-        ResolveCurrentPiece(); // todo spawn only if needed and in moment of spawn activate drag handler. after end 
-        return true;
     }
-
-    // ============================================
-    // ДОПОЛНИТЕЛЬНО
-    // ============================================
 
     public Piece GetActivePiece() => activePiece;
 }

@@ -2953,6 +2953,7 @@ MonoBehaviour:
   cellSprite: {fileID: -4997887417988981645, guid: 3c5605109103c4d4b86e145a6c121f84, type: 3}
   cellSize: 1
   maxPieces: 3
+  activePieces: []
 --- !u!1 &1713068203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3076,7 +3077,46 @@ MonoBehaviour:
   minY: 0
   OnPiecePlaced:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1691428030}
+        m_TargetAssemblyTypeName: PieceManager, Assembly-CSharp
+        m_MethodName: PlacePiece
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1871390350}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: HoldPiecePlacedEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnMapLoaded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1691428030}
+        m_TargetAssemblyTypeName: PieceManager, Assembly-CSharp
+        m_MethodName: ResolveCurrentPiece
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1838495241
 GameObject:
   m_ObjectHideFlags: 0

@@ -104,7 +104,17 @@ public class Piece
     public void SetActive(bool active)
     {
         isActive = active;
-        pieceObj.SetActive(active);
+        SetVisible(active);
+    }
+
+    public void SetVisible(bool visible)
+    {
+        pieceObj.SetActive(visible);
+    }
+
+    public void SetScale(Vector3 scale)
+    {
+        pieceObj.transform.localScale = scale;
     }
 
     /// <summary>
