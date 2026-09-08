@@ -44,13 +44,6 @@ public class PieceManager : MonoBehaviour
 
     public void GeneratePieces()
     {
-        // Удаляем старые
-        if(activePiece != null)
-            activePiece.DestroyPiece();
-        if(nextPiece != null)
-            nextPiece.DestroyPiece();
-        activePieces.Clear();
-
         int targetCellsCount = currentLevel.BackgroundTilesLayer.Count - currentLevel.TargetTilesLayer.Count;
         int currentPieceCellsCount = 0;
         // todo checkIfPieceIsolated -> may be more pieces needed
@@ -135,4 +128,24 @@ public class PieceManager : MonoBehaviour
     }
 
     public Piece GetActivePiece() => activePiece;
+
+    public int GetActivePieceCount() 
+    {
+        int count = activePieces.Count;
+        if (activePiece != null)
+            count++;
+        if (nextPiece != null)
+            count++;
+
+        return count;
+    }
+
+    public void ClearAll()
+    {
+        if (activePiece != null)
+            activePiece.DestroyPiece();
+        if (nextPiece != null)
+            nextPiece.DestroyPiece();
+        activePieces.Clear();
+    }
 }

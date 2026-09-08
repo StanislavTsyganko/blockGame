@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: ExplodeTile
+  m_EditorClassIdentifier: Unity.2D.Tilemap.Extras::UnityEngine.Tilemaps.AnimatedTile
+  m_AnimatedSprites:
+  - {fileID: -194537343892137494, guid: 2c0101ca56eb89a41a310f9fe66c1191, type: 3}
+  - {fileID: 7464958191838667689, guid: cd153d4cefdbfc24ea6d04f08f45f20f, type: 3}
+  - {fileID: 5517804525879037673, guid: 714849f9ab4410c4f92c6830ea606997, type: 3}
+  - {fileID: 3830044526141177292, guid: 29d56623da26e4e4c87608dff5848622, type: 3}
+  - {fileID: -1256816563490525278, guid: 8282189b8b9cf16489b691e2d609faab, type: 3}
+  - {fileID: 9060420621327381796, guid: 5b8bf23578c3c5e43b46d6535e64e41f, type: 3}
+  - {fileID: 908768068914587515, guid: e2cc2b21b6e30414494b5cfbb92385d6, type: 3}
+  - {fileID: -1207862687939847257, guid: 81fb4f140142873479a959fcc9e3d4e1, type: 3}
+  - {fileID: 868821356119960245, guid: 26fc726bbd4698444a0c1c4a8daf7f8d, type: 3}
+  - {fileID: 8187633068821304987, guid: 8a697b24003deae46b199c0dfd5df715, type: 3}
+  - {fileID: 362801759434640204, guid: 277999b1c82d70349a4f3f0100e85b18, type: 3}
+  m_MinSpeed: 10
+  m_MaxSpeed: 10
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 1

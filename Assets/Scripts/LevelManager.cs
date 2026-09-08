@@ -47,7 +47,7 @@ public class LevelManager : MonoBehaviour
 
         gridManager.Initialize(currentLevel);
         cameraScaler.Initialize(currentLevel, gridManager, _UIManager);
-        pieceManager.Initialize(currentLevel, gridManager, cameraScaler.placementObject.transform.position, cameraScaler.placementObject.transform.position + new Vector3(5,0,0)); //todo get next spawn position + level mode globalizating
+        pieceManager.Initialize(currentLevel, gridManager, _UIManager.placementObject.transform.position, _UIManager.placementObject.transform.position + new Vector3(5,0,0)); //todo get next spawn position + level mode globalizating
 
         gridManager.SpawnGrid();
     }
@@ -84,10 +84,17 @@ public class LevelManager : MonoBehaviour
     public bool CheckIfFailed()
     {
         int notDectroyedCount = gridManager.GetNotDestroyedBackgorund().Count();
-        int activePiecesCount = pieceManager.activePieces.Count();
+        int activePiecesCount = pieceManager.GetActivePieceCount();
 
         if (notDectroyedCount > 0 && activePiecesCount == 0)
             return true;
         return false;
+    }
+
+    public void ClearAll()
+    {
+        gridManager.ClearTilemaps();
+        pieceManager.ClearAll();
+        _UIManager.ClearAll();
     }
 }

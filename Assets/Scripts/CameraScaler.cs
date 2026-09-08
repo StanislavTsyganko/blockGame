@@ -13,7 +13,6 @@ public class CameraScaler : MonoBehaviour
     [SerializeField] private GridManager _gridManager;  
     [SerializeField] private UIManager _UIManager;  
     [SerializeField] private Tilemap _backgroundTilemap;
-    [SerializeField] public GameObject placementObject;
 
     [Header("Settings")]
     [SerializeField] private float padding = 1f; // Отступ от краёв карты
@@ -83,7 +82,7 @@ public class CameraScaler : MonoBehaviour
             float frameWidht = columns;
             Vector3 framePosition = new Vector3(0, 0, _grid.transform.position.z) - new Vector3(0, rows / 2 + 1f + frameHeight / 2, 0);
 
-            placementObject = _UIManager.SpawnFigurePlacementFrame(frameHeight, frameWidht, framePosition);
+            _UIManager.SpawnFigurePlacementFrame(frameHeight, frameWidht, framePosition);
         }
 
         Debug.Log($"[CameraScaler] Камера настроена под уровень: {columns}x{rows}, size: {_camera.orthographicSize} {_camera}");

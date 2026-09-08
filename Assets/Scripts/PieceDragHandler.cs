@@ -60,8 +60,8 @@ public class PieceDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     {
         if (!isDragging) return;
         isDragging = false;
-        gridManager.PlacePiece(piece);
-        if (gridManager.PlacePiece(piece) == false)
+        //gridManager.PlacePiece(piece);
+        if (!gridManager.PlacePiece(piece))
             piece.SetPosition(startAnchorPosition, null);
         //OnPiecePlaced.Invoke(piece); // add eventListener Remove if init here
     }

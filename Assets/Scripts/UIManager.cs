@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-using static UnityEngine.Audio.ProcessorInstance;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject endGameMenu;
     [SerializeField] private GameObject endGameBackground;
+    [SerializeField] public GameObject placementObject;
+
     public TextMeshProUGUI endGameText;
 
     public Button playButton;
@@ -106,6 +107,8 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("[PieceManager] piecePlacementFrame = null!");
             return null;
         }
+        if (placementObject)
+            Destroy(placementObject);
 
         GameObject frame = new GameObject("Frame");
         SpriteRenderer sr = frame.AddComponent<SpriteRenderer>();
@@ -115,6 +118,15 @@ public class UIManager : MonoBehaviour
         frame.transform.localScale = new Vector3(width / spriteSize.x, height / spriteSize.y, 1f);
         frame.transform.position = position;
 
+        placementObject = frame;
+
         return frame;
+    }
+
+    public void ClearAll()
+    {
+        if (placementObject)
+            Destroy(placementObject);
+
     }
 }

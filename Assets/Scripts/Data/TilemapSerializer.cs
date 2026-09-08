@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Collections.Generic;
+using static UnityEditor.PlayerSettings;
 
 public static class TilemapSerializer
 {
@@ -34,16 +35,21 @@ public static class TilemapSerializer
         {
             for (int y = 0; y < bounds.size.y; y++)
             {
-                TileBase tile = allTiles[x + y * bounds.size.x];
+                Vector3Int pos = new Vector3Int(bounds.x + x, bounds.y + y, 0);
+                TileBase tile = tilemap.GetTile(pos);
                 if (tile != null)
                 {
                     int id = palette.IndexOf(tile);
                     if (id == -1) { palette.Add(tile); id = palette.Count - 1; }
 
+                    Color color = tilemap.GetColor(pos);
+                    if (color == Color.clear) color = Color.white;
+
                     result.tiles.Add(new TileData
                     {
                         position = new Vector3Int(bounds.x + x, bounds.y + y, 0),
-                        tileID = id
+                        tileID = id,
+                        color = color
                     });
                 }
             }
@@ -69,6 +75,8 @@ public static class TilemapSerializer
             if (tile.tileID >= 0 && tile.tileID < palette.Length)
             {
                 tilemap.SetTile(tile.position, palette[tile.tileID]);
+                tilemap.SetTileFlags(tile.position, TileFlags.None);
+                tilemap.SetColor(tile.position, tile.color);
             }
         }
     }

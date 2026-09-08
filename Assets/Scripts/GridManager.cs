@@ -4,6 +4,23 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using UnityEngine.WSA;
+
+public enum TileState
+{
+    Normal,
+    Destroyed,
+    None,
+}
+
+public enum CellTypes
+{
+    Background,
+    Target,
+    Preview,
+    Animation,
+    None,
+}
 
 public class GridManager : MonoBehaviour
 {
@@ -21,11 +38,13 @@ public class GridManager : MonoBehaviour
     [Header("Animation")]
     public float tileAppearDelay = 0.03f;
     public bool animateTiles = true;
+    [SerializeField] private AnimatedTile explodeTile;
+    [SerializeField] private Tilemap animationTilemapLayer;
+
+    private Dictionary<Vector3Int, TileState> tileStates = new Dictionary<Vector3Int, TileState>();
 
     public bool gridLoaded = false;
     public int maxX = 0, maxY = 0, minX = 0, minY = 0;
-
-    //private List<Cell> cells = new List<Cell>();.
 
     private List<Vector3Int> currentPreviewPositions = new List<Vector3Int>();
     private LevelData currentLevelData;
@@ -48,8 +67,6 @@ public class GridManager : MonoBehaviour
             }
         }
         ClearPreview();
-        //if (OnPiecePlaced == null)
-            //OnPiecePlaced = new UnityEvent<Piece>();
     }
 
     public void SpawnGrid()
@@ -60,7 +77,6 @@ public class GridManager : MonoBehaviour
             StartCoroutine(AnimateLoadLevel(currentLevelData));
         else
             InstantLoadLevel(currentLevelData);
-        OnMapLoaded.Invoke();
     }
 
     public void ShowPreview(Piece piece)
@@ -82,7 +98,7 @@ public class GridManager : MonoBehaviour
     }
 
 
-    private void ClearTilemaps()
+    public void ClearTilemaps()
     {
         backgroundTilemapLayer?.ClearAllTiles();
         targetTilemapLayer?.ClearAllTiles();
@@ -105,22 +121,23 @@ public class GridManager : MonoBehaviour
 
     private void InstantLoadLevel(LevelData data)
     {
-        LoadLayer(backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, "background");
+        LoadLayer(backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, CellTypes.Background);
         LoadLayer(targetTilemapLayer, data.TargetTilesLayer, data.TargetTilesPaletteLayer);
         gridLoaded = true;
+        OnMapLoaded.Invoke();
     }
 
-    private void LoadLayer(Tilemap tilemap, List<TileData> tiles, TileBase[] palette, string cellType = null)
+    private void LoadLayer(Tilemap tilemap, List<TileData> tiles, TileBase[] palette, CellTypes cellType = CellTypes.None)
     {
         if (tilemap == null || tiles == null || palette == null) return;
         foreach (var tile in tiles)
             if (tile.tileID >= 0 && tile.tileID < palette.Length)
             {
                 tilemap.SetTile(tile.position, palette[tile.tileID]);
-                //TileBase tileB = tilemap.GetTile(tile.position);
-                //Cell cell = tileB.AddComponent<Cell>();
-                //if (cellType != null)
-                    //cell.Initialize(tile.position, cellType);
+                tilemap.SetTileFlags(tile.position, TileFlags.None);
+                tilemap.SetColor(tile.position, tile.color);
+                if (cellType == CellTypes.Background)
+                    SetTileState(tile.position, TileState.Normal);
             }
     }
 
@@ -144,10 +161,12 @@ public class GridManager : MonoBehaviour
             dataTile.tilemap.SetTileFlags(dataTile.tile.position, TileFlags.None);
             dataTile.tilemap.SetColor(dataTile.tile.position, Color.yellow);
             yield return new WaitForSeconds(tileAppearDelay);
-            dataTile.tilemap.SetColor(dataTile.tile.position, Color.white);
+            dataTile.tilemap.SetColor(dataTile.tile.position, dataTile.tile.color);
         }
 
         gridLoaded = true;
+        OnMapLoaded.Invoke();
+
         Debug.Log($"[LevelManager] Анимация завершена. Тайлов: {allTiles.Count}");
     }
 
@@ -177,11 +196,9 @@ public class GridManager : MonoBehaviour
         Vector3Int[] positions = GetPieceGridPositions(piece);
         foreach (Vector3Int pos in positions)
         {
-            if (backgroundTilemapLayer.GetTile(pos) && backgroundTilemapLayer.GetTile(pos) == backgroundCellTile)
+            if (IsTileExist(pos) && !IsTileDestroyed(pos))
             {
-                //Cell cell = backgroundTilemapLayer.GetTile(pos).GetComponent<Cell>();
-                //if (cell != null && !cell.destroyed)
-                    return true;
+                return true;
             }
         }
         return false;
@@ -189,6 +206,7 @@ public class GridManager : MonoBehaviour
 
     public bool PlacePiece(Piece piece)
     {
+        ClearPreview();
         if (!CanPlace(piece))
             return false;
 
@@ -197,20 +215,13 @@ public class GridManager : MonoBehaviour
             Vector3Int[] positions = GetPieceGridPositions(piece);
             foreach (Vector3Int pos in positions)
             {
-                //Cell cell = backgroundTilemapLayer.GetTile(pos).GetComponent<Cell>();
-                //if (cell != null)
-                //if (!cell.destroyed)
-                //{
-                //backgroundTilemapLayer.SetTile(pos, previewCellTile);
-                //cell.destroyed = true;
-                //}
-                //else
-                //if (backgroundTilemapLayer.GetTile(pos) == backgroundCellTile)
-                if (backgroundTilemapLayer.HasTile(pos))
+                if (IsTileExist(pos) && !IsTileDestroyed(pos))
+                {
                     backgroundTilemapLayer.SetTile(pos, previewCellTile);
+                    animationTilemapLayer.SetTile(pos, explodeTile);
+                    SetTileState(pos, TileState.Destroyed);
+                }
             }
-
-            ClearPreview();
             OnPiecePlaced.Invoke(piece);
         }
         catch
@@ -260,15 +271,38 @@ public class GridManager : MonoBehaviour
     public Vector3Int[] GetNotDestroyedBackgorund()
     {
         List<Vector3Int> positions = new List<Vector3Int>();
-        foreach (TileData tileData in currentLevelData.BackgroundTilesLayer)
+        //foreach (TileData tileData in currentLevelData.BackgroundTilesLayer)
+        //{
+        //    TileState tileBackgroundState = GetTileState(tileData.position);
+        //    if (tileBackgroundState == TileState.Normal)
+        //        positions.Add(tileData.position);
+        //}
+        foreach (var (pos, tileState) in tileStates)
         {
-            // todo Сделать Tile-compound class
-            TileBase tileBackground = backgroundTilemapLayer.GetTile(tileData.position);
-            TileBase tileTarget = targetTilemapLayer.GetTile(tileData.position);
-            if (tileBackground != null && tileBackground == backgroundCellTile && !tileTarget)
-                positions.Add(tileData.position);
+            if (tileState == TileState.Normal)
+                positions.Add(pos);
         }
 
         return positions.ToArray();
+    }
+
+    public void SetTileState(Vector3Int pos, TileState state)
+    {
+        tileStates[pos] = state;
+    }
+
+    public TileState GetTileState(Vector3Int pos)
+    {
+        return tileStates.TryGetValue(pos, out var state) ? state : TileState.None;
+    }
+
+    public bool IsTileDestroyed(Vector3Int pos)
+    {
+        return GetTileState(pos) == TileState.Destroyed;
+    }
+
+    public bool IsTileExist(Vector3Int pos)
+    {
+        return GetTileState(pos) != TileState.None;
     }
 }

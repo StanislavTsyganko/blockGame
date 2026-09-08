@@ -13,511 +13,757 @@ MonoBehaviour:
   m_Name: TestLevel
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   BackgroundTilesPaletteLayer:
+  - {fileID: 11400000, guid: b613304322f27e9418581a225bfaab24, type: 2}
   - {fileID: 11400000, guid: de920daca70b0b54387a53a59573fd3a, type: 2}
   BackgroundTilesLayer:
   - position: {x: -10, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -10, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -10, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -10, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -9, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -8, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -8, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -8, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -8, y: 5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -7, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -7, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -7, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: 5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -6, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -6, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -6, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: 5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -5, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -5, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -5, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -6, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -4, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -4, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -4, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -7, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -6, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -3, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -3, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -3, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -8, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -7, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -6, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -2, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -2, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -2, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: -7, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: -6, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: -5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -1, y: -4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -1, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: -1, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 0, y: -6, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: 0, y: -5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: 0, y: -4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: 0, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 0, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 0, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 0, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 0, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 0, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 0, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: -5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 0, b: 0.8248067, a: 1}
   - position: {x: 1, y: -4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 1, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: -4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 2, y: 5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 3, y: 5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 4, y: 5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 5, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 5, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 5, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 5, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 5, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 5, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 6, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 6, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 6, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: 6, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
   TargetTilesPaletteLayer:
-  - {fileID: 11400000, guid: 73b4eff13838ddf45bbc7af64cd15def, type: 2}
+  - {fileID: 11400000, guid: 0a4562a2fd0794d4083180d511482754, type: 2}
+  - {fileID: 11400000, guid: b613304322f27e9418581a225bfaab24, type: 2}
   TargetTilesLayer:
   - position: {x: -9, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -9, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -8, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -7, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -7, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -7, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -6, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -6, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -6, y: 4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -5, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -5, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -5, y: 3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -3, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -4, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -4, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: 1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -4, y: 2, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -6, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -4, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -3, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -3, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -3, y: 1, z: 0}
     tileID: 0
-  - position: {x: -2, y: -7, z: 0}
-    tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -6, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -5, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: -4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -2, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -2, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -2, y: -1, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -2, y: 0, z: 0}
     tileID: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
   - position: {x: -1, y: -6, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -1, y: -5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -1, y: -4, z: 0}
-    tileID: 0
-  - position: {x: -1, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -1, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -1, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -1, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: -1, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: -5, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: -4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 0, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: -4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 1, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: -3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 2, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 3, y: -2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 3, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 3, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 3, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 3, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 3, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 3, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 4, y: -1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 4, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 4, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 4, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 4, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 4, y: 4, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 5, y: 0, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 5, y: 1, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 5, y: 2, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   - position: {x: 5, y: 3, z: 0}
-    tileID: 0
+    tileID: 1
+    color: {r: 0.6132076, g: 0.5640353, b: 0.6045301, a: 0.49803922}
   availablePieces:
   - {fileID: 11400000, guid: ceb902770135a174496280517fd5f824, type: 2}
   - {fileID: 11400000, guid: f0d8661bf98aa9342b6c2b71c7c8a771, type: 2}
@@ -528,3 +774,5 @@ MonoBehaviour:
   movesLimit: 30
   rows: 14
   columns: 17
+  levelId: 0
+  levelDificulty: 

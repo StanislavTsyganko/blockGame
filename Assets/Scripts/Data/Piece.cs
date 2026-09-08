@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
-using static UnityEngine.Audio.ProcessorInstance;
 
 public class Piece
 {
@@ -152,11 +149,16 @@ public class Piece
         isPlaced = true;
         isActive = false;
         DestroyPiece();
+        Debug.Log("Piece destroyed");
     }
 
     public void DestroyPiece()
     {
-        Object.Destroy(pieceObj);
+        if (pieceObj != null)
+        {
+            Object.Destroy(pieceObj);
+            pieceObj = null;
+        }
     }
 
     // Вспомогательный метод для получения позиции на сетке (например, для превью)
