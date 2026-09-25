@@ -47,18 +47,26 @@ public class GridManager : MonoBehaviour
     public int maxX = 0, maxY = 0, minX = 0, minY = 0;
 
     private List<Vector3Int> currentPreviewPositions = new List<Vector3Int>();
-    private LevelData currentLevelData;
+    private FigureData currentFigureData;
 
     public UnityEvent<Piece> OnPiecePlaced;
     public UnityEvent OnMapLoaded;
 
-    public void Initialize(LevelData levelData)
+    public void Initialize(FigureData figureData)
     {
         ClearTilemaps();
-        currentLevelData = levelData;
-        if (levelData != null)
+        currentFigureData = figureData;
+        maxX = 0; maxY = 0; minX = 0; minY = 0;
+        if (figureData != null)
         {
-            foreach (TileData tile in levelData.BackgroundTilesLayer)
+            foreach (TileData tile in figureData.BackgroundTilesLayer)
+            {
+                if (tile.position.x > maxX) maxX = tile.position.x;
+                if (tile.position.y > maxY) maxY = tile.position.y;
+                if (tile.position.x < minX) minX = tile.position.x;
+                if (tile.position.y < minY) minY = tile.position.y;
+            }
+            foreach (TileData tile in figureData.TargetTilesLayer)
             {
                 if (tile.position.x > maxX) maxX = tile.position.x;
                 if (tile.position.y > maxY) maxY = tile.position.y;
@@ -71,12 +79,12 @@ public class GridManager : MonoBehaviour
 
     public void SpawnGrid()
     {
-        if(!currentLevelData)
+        if(!currentFigureData)
             return;
         if (animateTiles)
-            StartCoroutine(AnimateLoadLevel(currentLevelData));
+            StartCoroutine(AnimateLoadLevel(currentFigureData));
         else
-            InstantLoadLevel(currentLevelData);
+            InstantLoadLevel(currentFigureData);
     }
 
     public void ShowPreview(Piece piece)
@@ -119,7 +127,7 @@ public class GridManager : MonoBehaviour
         ShowPreview(piece);
     }
 
-    private void InstantLoadLevel(LevelData data)
+    private void InstantLoadLevel(FigureData data)
     {
         LoadLayer(backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, CellTypes.Background);
         LoadLayer(targetTilemapLayer, data.TargetTilesLayer, data.TargetTilesPaletteLayer);
@@ -131,6 +139,7 @@ public class GridManager : MonoBehaviour
     {
         if (tilemap == null || tiles == null || palette == null) return;
         foreach (var tile in tiles)
+        {
             if (tile.tileID >= 0 && tile.tileID < palette.Length)
             {
                 tilemap.SetTile(tile.position, palette[tile.tileID]);
@@ -139,9 +148,18 @@ public class GridManager : MonoBehaviour
                 if (cellType == CellTypes.Background)
                     SetTileState(tile.position, TileState.Normal);
             }
+            //if (tile.position.x > maxX) maxX = tile.position.x;
+            //if (tile.position.y > maxY) maxY = tile.position.y;
+            //if (tile.position.x < minX) minX = tile.position.x;
+            //if (tile.position.y < minY) minY = tile.position.y;
+        }
+        //Debug.LogError(maxX);
+        //Debug.LogError(maxY);
+        //Debug.LogError(minX);
+        //Debug.LogError(minY);
     }
 
-    private IEnumerator AnimateLoadLevel(LevelData data)
+    private IEnumerator AnimateLoadLevel(FigureData data)
     {
         var allTiles = new List<AnimatedTileData>();
         CollectTilesForAnimation(data, backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, allTiles);
@@ -170,7 +188,7 @@ public class GridManager : MonoBehaviour
         Debug.Log($"[LevelManager] Анимация завершена. Тайлов: {allTiles.Count}");
     }
 
-    private void CollectTilesForAnimation(LevelData data, Tilemap tilemap, List<TileData> tiles, TileBase[] palette, List<AnimatedTileData> list)
+    private void CollectTilesForAnimation(FigureData data, Tilemap tilemap, List<TileData> tiles, TileBase[] palette, List<AnimatedTileData> list)
     {
         if (tilemap == null || tiles == null || palette == null) return;
         foreach (var tile in tiles)

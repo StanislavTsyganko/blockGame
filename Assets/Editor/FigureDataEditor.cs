@@ -2,10 +2,10 @@
 using UnityEditor;
 using UnityEngine.Tilemaps;
 
-[CustomEditor(typeof(LevelData))]
-public class LevelDataEditor : Editor
+[CustomEditor(typeof(FigureData))]
+public class FigureDataEditor : Editor
 {
-    private LevelData levelData;
+    private FigureData figureData;
 
     [SerializeField] private Tilemap sourceTilemapBackgroundLayer;
     [SerializeField] private Tilemap sourceTilemapTargetFigureLayer;
@@ -15,7 +15,7 @@ public class LevelDataEditor : Editor
 
     private void OnEnable()
     {
-        levelData = (LevelData)target;
+        figureData = (FigureData)target;
     }
 
     public override void OnInspectorGUI()
@@ -132,8 +132,8 @@ public class LevelDataEditor : Editor
             if (EditorUtility.DisplayDialog("Очистить все данные?",
                 "Удалить все данные о тайлах?", "Да", "Отмена"))
             {
-                levelData.ClearAllData();
-                EditorUtility.SetDirty(levelData);
+                figureData.ClearAllData();
+                EditorUtility.SetDirty(figureData);
                 AssetDatabase.SaveAssets();
             }
         }
@@ -161,11 +161,10 @@ public class LevelDataEditor : Editor
         EditorGUILayout.LabelField("==== LEVEL INFO ====", headerStyle);
         EditorGUILayout.Space(5);
 
-        EditorGUILayout.LabelField($"📊 Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов");
-        EditorGUILayout.LabelField($"📊 Layer 2: {levelData.TargetTilesLayer.Count} тайлов");
-        EditorGUILayout.LabelField($"📊 Всего: {levelData.TotalTiles}");
-        EditorGUILayout.LabelField($"📐 Сетка: {levelData.rows} x {levelData.columns}");
-        EditorGUILayout.LabelField($"🎯 Цель: {levelData.targetScore} очков");
+        EditorGUILayout.LabelField($"📊 Layer 1: {figureData.BackgroundTilesLayer.Count} тайлов");
+        EditorGUILayout.LabelField($"📊 Layer 2: {figureData.TargetTilesLayer.Count} тайлов");
+        EditorGUILayout.LabelField($"📊 Всего: {figureData.TotalTiles}");
+        EditorGUILayout.LabelField($"📐 Сетка: {figureData.rows} x {figureData.columns}");
     }
 
     // ============================================
@@ -181,15 +180,15 @@ public class LevelDataEditor : Editor
         }
 
         var result = TilemapSerializer.Export(sourceTilemapBackgroundLayer);
-        levelData.BackgroundTilesLayer = result.tiles;
-        levelData.BackgroundTilesPaletteLayer = result.palette;
-        levelData.rows = result.rows;
-        levelData.columns = result.columns;
+        figureData.BackgroundTilesLayer = result.tiles;
+        figureData.BackgroundTilesPaletteLayer = result.palette;
+        figureData.rows = result.rows;
+        figureData.columns = result.columns;
 
-        EditorUtility.SetDirty(levelData);
+        EditorUtility.SetDirty(figureData);
         AssetDatabase.SaveAssets();
 
-        Debug.Log($"[LevelDataEditor] Экспортирован Layer 1: {result.tiles.Count} тайлов");
+        Debug.Log($"[FigureDataEditor] Экспортирован Layer 1: {result.tiles.Count} тайлов");
         EditorUtility.DisplayDialog("Готово!", $"✅ Layer 1 сохранён ({result.tiles.Count} тайлов)", "OK");
     }
 
@@ -201,15 +200,15 @@ public class LevelDataEditor : Editor
             return;
         }
 
-        if (levelData.BackgroundTilesLayer.Count == 0)
+        if (figureData.BackgroundTilesLayer.Count == 0)
         {
             EditorUtility.DisplayDialog("Нет данных!", "Layer 1 пуст.", "OK");
             return;
         }
 
-        TilemapSerializer.Import(sourceTilemapBackgroundLayer, levelData.BackgroundTilesPaletteLayer, levelData.BackgroundTilesLayer);
-        Debug.Log($"[LevelDataEditor] Загружен Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов");
-        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 1 загружен ({levelData.BackgroundTilesLayer.Count} тайлов)", "OK");
+        TilemapSerializer.Import(sourceTilemapBackgroundLayer, figureData.BackgroundTilesPaletteLayer, figureData.BackgroundTilesLayer);
+        Debug.Log($"[FigureDataEditor] Загружен Layer 1: {figureData.BackgroundTilesLayer.Count} тайлов");
+        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 1 загружен ({figureData.BackgroundTilesLayer.Count} тайлов)", "OK");
     }
 
     private void ClearLayer1()
@@ -220,7 +219,7 @@ public class LevelDataEditor : Editor
             $"Очистить {sourceTilemapBackgroundLayer.name}?", "Да", "Отмена"))
         {
             sourceTilemapBackgroundLayer.ClearAllTiles();
-            Debug.Log("[LevelDataEditor] Layer 1 очищен");
+            Debug.Log("[FigureDataEditor] Layer 1 очищен");
         }
     }
 
@@ -237,19 +236,19 @@ public class LevelDataEditor : Editor
         }
 
         var result = TilemapSerializer.Export(sourceTilemapTargetFigureLayer);
-        levelData.TargetTilesLayer = result.tiles;
-        levelData.TargetTilesPaletteLayer = result.palette;
+        figureData.TargetTilesLayer = result.tiles;
+        figureData.TargetTilesPaletteLayer = result.palette;
 
-        if (levelData.rows == 0 && levelData.columns == 0)
+        if (figureData.rows == 0 && figureData.columns == 0)
         {
-            levelData.rows = result.rows;
-            levelData.columns = result.columns;
+            figureData.rows = result.rows;
+            figureData.columns = result.columns;
         }
 
-        EditorUtility.SetDirty(levelData);
+        EditorUtility.SetDirty(figureData);
         AssetDatabase.SaveAssets();
 
-        Debug.Log($"[LevelDataEditor] Экспортирован Layer 2: {result.tiles.Count} тайлов");
+        Debug.Log($"[FigureDataEditor] Экспортирован Layer 2: {result.tiles.Count} тайлов");
         EditorUtility.DisplayDialog("Готово!", $"✅ Layer 2 сохранён ({result.tiles.Count} тайлов)", "OK");
     }
 
@@ -261,15 +260,15 @@ public class LevelDataEditor : Editor
             return;
         }
 
-        if (levelData.TargetTilesLayer.Count == 0)
+        if (figureData.TargetTilesLayer.Count == 0)
         {
             EditorUtility.DisplayDialog("Нет данных!", "Layer 2 пуст.", "OK");
             return;
         }
 
-        TilemapSerializer.Import(sourceTilemapTargetFigureLayer, levelData.TargetTilesPaletteLayer, levelData.TargetTilesLayer);
-        Debug.Log($"[LevelDataEditor] Загружен Layer 2: {levelData.TargetTilesLayer.Count} тайлов");
-        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 2 загружен ({levelData.TargetTilesLayer.Count} тайлов)", "OK");
+        TilemapSerializer.Import(sourceTilemapTargetFigureLayer, figureData.TargetTilesPaletteLayer, figureData.TargetTilesLayer);
+        Debug.Log($"[FigureDataEditor] Загружен Layer 2: {figureData.TargetTilesLayer.Count} тайлов");
+        EditorUtility.DisplayDialog("Готово!", $"✅ Layer 2 загружен ({figureData.TargetTilesLayer.Count} тайлов)", "OK");
     }
 
     private void ClearLayer2()
@@ -280,7 +279,7 @@ public class LevelDataEditor : Editor
             $"Очистить {sourceTilemapTargetFigureLayer.name}?", "Да", "Отмена"))
         {
             sourceTilemapTargetFigureLayer.ClearAllTiles();
-            Debug.Log("[LevelDataEditor] Layer 2 очищен");
+            Debug.Log("[FigureDataEditor] Layer 2 очищен");
         }
     }
 
@@ -291,27 +290,27 @@ public class LevelDataEditor : Editor
     private void ExportAllLayers()
     {
         Tilemap[] tilemaps = new Tilemap[] { sourceTilemapBackgroundLayer, sourceTilemapTargetFigureLayer };
-        TilemapSerializer.ExportAll(tilemaps, levelData);
+        TilemapSerializer.ExportAll(tilemaps, figureData);
 
-        EditorUtility.SetDirty(levelData);
+        EditorUtility.SetDirty(figureData);
         AssetDatabase.SaveAssets();
 
         EditorUtility.DisplayDialog("Готово!",
             $"✅ Экспортировано:\n" +
-            $"Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов\n" +
-            $"Layer 2: {levelData.TargetTilesLayer.Count} тайлов",
+            $"Layer 1: {figureData.BackgroundTilesLayer.Count} тайлов\n" +
+            $"Layer 2: {figureData.TargetTilesLayer.Count} тайлов",
             "OK");
     }
 
     private void ImportAllLayers()
     {
         Tilemap[] tilemaps = new Tilemap[] { sourceTilemapBackgroundLayer, sourceTilemapTargetFigureLayer };
-        TilemapSerializer.ImportAll(tilemaps, levelData);
+        TilemapSerializer.ImportAll(tilemaps, figureData);
 
         EditorUtility.DisplayDialog("Готово!",
             $"✅ Загружено:\n" +
-            $"Layer 1: {levelData.BackgroundTilesLayer.Count} тайлов\n" +
-            $"Layer 2: {levelData.TargetTilesLayer.Count} тайлов",
+            $"Layer 1: {figureData.BackgroundTilesLayer.Count} тайлов\n" +
+            $"Layer 2: {figureData.TargetTilesLayer.Count} тайлов",
             "OK");
     }
 
@@ -337,7 +336,7 @@ public class LevelDataEditor : Editor
             return;
         }
 
-        Debug.Log("[LevelDataEditor] Все Tilemap очищены.");
+        Debug.Log("[FigureDataEditor] Все Tilemap очищены.");
         EditorUtility.DisplayDialog("Готово!", "✅ Все Tilemap очищены.", "OK");
     }
 

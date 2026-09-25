@@ -44,7 +44,7 @@ public class PieceManager : MonoBehaviour
 
     public void GeneratePieces()
     {
-        int targetCellsCount = currentLevel.BackgroundTilesLayer.Count - currentLevel.TargetTilesLayer.Count;
+        int targetCellsCount = currentLevel.figureData.BackgroundTilesLayer.Count - currentLevel.figureData.TargetTilesLayer.Count;
         int currentPieceCellsCount = 0;
         // todo checkIfPieceIsolated -> may be more pieces needed
         for (int i = 0; i < maxPieces || currentPieceCellsCount < targetCellsCount * 1.2; i++)

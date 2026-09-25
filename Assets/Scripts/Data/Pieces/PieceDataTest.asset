@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d30cab39b697e0448a8bb8bb64e541f, type: 3}
-  m_Name: FigureDataTest
+  m_Name: PieceDataTest
   m_EditorClassIdentifier: Assembly-CSharp::FigureData
   size: {x: 3, y: 3}
   cells: 000100010101000100

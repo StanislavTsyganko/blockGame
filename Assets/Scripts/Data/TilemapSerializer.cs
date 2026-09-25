@@ -82,35 +82,33 @@ public static class TilemapSerializer
     }
 
     /// <summary>
-    /// Ёкспорт всех Tilemap в LevelData (по массиву)
+    /// Ёкспорт всех Tilemap в FigureData (по массиву)
     /// </summary>
-    public static void ExportAll(Tilemap[] tilemaps, LevelData levelData)
+    public static void ExportAll(Tilemap[] tilemaps, FigureData figureData)
     {
         if (tilemaps == null || tilemaps.Length == 0) return;
 
-        // ќчищаем старые данные
-        levelData.ClearAllData();
+        figureData.ClearAllData();
 
         for (int i = 0; i < tilemaps.Length; i++)
         {
             ExportResult result = Export(tilemaps[i]);
 
-            // ƒобавл€ем данные в LevelData по индексу сло€
-            levelData.AddLayerData(i, result.palette, result.tiles);
+            figureData.AddLayerData(i, result.palette, result.tiles);
 
             // –азмеры сетки (берЄм из первого непустого сло€)
-            if (levelData.rows == 0 && levelData.columns == 0 && result.rows > 0 && result.columns > 0)
+            if (figureData.rows == 0 && figureData.columns == 0 && result.rows > 0 && result.columns > 0)
             {
-                levelData.rows = result.rows;
-                levelData.columns = result.columns;
+                figureData.rows = result.rows;
+                figureData.columns = result.columns;
             }
         }
     }
 
     /// <summary>
-    /// »мпорт всех слоЄв из LevelData в Tilemap
+    /// »мпорт всех слоЄв из FigureData в Tilemap
     /// </summary>
-    public static void ImportAll(Tilemap[] tilemaps, LevelData levelData)
+    public static void ImportAll(Tilemap[] tilemaps, FigureData figureData)
     {
         if (tilemaps == null || tilemaps.Length == 0) return;
 
@@ -118,13 +116,13 @@ public static class TilemapSerializer
         {
             if (i < tilemaps.Length && tilemaps[i] != null)
             {
-                Import(tilemaps[i], levelData.GetPalette(i), levelData.GetTiles(i));
+                Import(tilemaps[i], figureData.GetPalette(i), figureData.GetTiles(i));
             }
         }
     }
 
     /// <summary>
-    /// Ёкспорт всех Tilemap в LevelData (с автоматическим определением количества слоЄв)
+    /// Ёкспорт всех Tilemap в FigureData (с автоматическим определением количества слоЄв)
     /// </summary>
     public static void ExportAllFromFields(Tilemap layer1, Tilemap layer2, params Tilemap[] additionalLayers)
     {
@@ -140,7 +138,7 @@ public static class TilemapSerializer
             }
         }
 
-        // TODO: передавать LevelData в метод
-        // ExportAll(allLayers.ToArray(), levelData);
+        // TODO: передавать FigureData в метод
+        // ExportAll(allLayers.ToArray(), figureData);
     }
 }
