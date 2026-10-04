@@ -214,6 +214,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1871390350}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &17027625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +488,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1871390350}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
-        m_MethodName: ClearAll
+        m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1068,6 +1080,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592178517}
   m_CullTransparentMesh: 1
+--- !u!1 &593523781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 593523782}
+  - component: {fileID: 593523783}
+  m_Layer: 1
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &593523782
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593523781}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1838495242}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &593523783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593523781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc88c87fcabbfeb458405c4e3a733b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveManager
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2623,6 +2683,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1871390350}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: LevelData, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1391762556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3344,6 +3416,7 @@ RectTransform:
   - {fileID: 1752404069}
   - {fileID: 1111220181}
   - {fileID: 1713068204}
+  - {fileID: 593523782}
   m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3400,7 +3473,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraScaler
   _camera: {fileID: 519420031}
-  currentLevel: {fileID: 11400000, guid: 9a13cf550f346bb4fa65be1f76a3e091, type: 2}
   _grid: {fileID: 533395432}
   _gridManager: {fileID: 1752404070}
   _UIManager: {fileID: 1713068205}
@@ -3459,9 +3531,11 @@ MonoBehaviour:
   gridManager: {fileID: 1752404070}
   cameraScaler: {fileID: 1851791169}
   _UIManager: {fileID: 1713068205}
+  levelSequenceData: {fileID: 11400000, guid: 639ac5dac7991344497f1f91b9d9e23b, type: 2}
+  saveManager: {fileID: 593523783}
   backgroundTilemapLayer: {fileID: 1382488190}
   targetTilemapLayer: {fileID: 219715442}
-  currentLevel: {fileID: 11400000, guid: 9a13cf550f346bb4fa65be1f76a3e091, type: 2}
+  currentLevel: {fileID: 0}
   mainMenuLevel: {fileID: 11400000, guid: 126c4bb1e238b7e418d8176fc95a09a4, type: 2}
   tileAppearDelay: 0.01
   animateTiles: 0

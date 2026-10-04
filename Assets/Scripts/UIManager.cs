@@ -5,6 +5,13 @@ using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
+//public enum EndLevelType
+//{
+//    Win,
+//    Lose,
+//    End,
+//}
+
 public class UIManager : MonoBehaviour
 {
     [Header("References")]
@@ -99,6 +106,14 @@ public class UIManager : MonoBehaviour
         endGameText.text = "Lose";
         ShowEndGameMenu(false);
     }
+
+    public void OnNoMoreLevels()
+    {
+        playButton.enabled = false;
+        endGameText.text = "No more levels";
+        endGameText.enabled = true;
+    }
+
 
     public GameObject SpawnFigurePlacementFrame(float height, float width, Vector3 position)
     {

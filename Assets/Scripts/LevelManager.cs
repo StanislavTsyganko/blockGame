@@ -14,6 +14,8 @@ public class LevelManager : MonoBehaviour
     public GridManager gridManager;
     public CameraScaler cameraScaler;
     [SerializeField] public UIManager _UIManager;
+    [SerializeField] public LevelSequenceData levelSequenceData;
+    [SerializeField] public SaveManager saveManager;
 
     [Header("References")]
     public Tilemap backgroundTilemapLayer;
@@ -24,6 +26,8 @@ public class LevelManager : MonoBehaviour
     [Header("Animation")]
     public float tileAppearDelay = 0.03f;
     public bool animateTiles = true;
+
+    int currentLevelID;
 
     private void Start()
     {
@@ -81,16 +85,17 @@ public class LevelManager : MonoBehaviour
         mainMenuLevelCopy.figureData.TargetTilesPaletteLayer = targetPalette;
         gridManager.Initialize(mainMenuLevelCopy.figureData);
         cameraScaler.Initialize(gridManager, _UIManager);
-        cameraScaler.AdaptCameraToLevel(mainMenuLevelCopy.figureData, true); // todo add adapt to menu //todo to LevelData add level type - уже сделано. соталось легаси использование удаленных levelData полей перенесенных в FigureData обновить на использование FigureData
+        cameraScaler.AdaptCameraToLevel(mainMenuLevelCopy.figureData, true); // todo add adapt to menu
         gridManager.SpawnGrid();
     }
 
-    public void LoadLevel(LevelData levelData = null)
+    public void LoadLevel()
     {
-        if (levelData == null)
-            ResolveCurrentLevel();
-        else
-            currentLevel = levelData;
+        ResolveCurrentLevel();
+        if (!currentLevel)
+        {
+            _UIManager.OnNoMoreLevels();
+        }
 
         gridManager.Initialize(currentLevel.figureData);
         //cameraScaler.Initialize(currentLevel, gridManager, _UIManager);
@@ -104,6 +109,9 @@ public class LevelManager : MonoBehaviour
     {
         if (CheckIfPassed())
         {
+            currentLevelID += 1;
+            saveManager.SetProgressLevel(currentLevelID);
+            saveManager.SaveGame();
             _UIManager.OnWin();
             return;
         }
@@ -115,9 +123,15 @@ public class LevelManager : MonoBehaviour
         pieceManager.ResolveCurrentPiece();
     }
 
-    public void ResolveCurrentLevel() // todo add level from memory
+    public void ResolveCurrentLevel()
     {
-
+        if (!saveManager)
+            return;
+        saveManager.LoadGame();
+        currentLevelID = saveManager.GetProgress().currentLevelId;
+        if(!levelSequenceData)
+            return;
+        currentLevel = levelSequenceData.GetLevel(currentLevelID);
     }
 
     public bool CheckIfPassed()

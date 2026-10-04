@@ -26,6 +26,7 @@ public class LevelData : ScriptableObject
 
     public void CopyData(LevelData original)
     {
+        this.figureData = new FigureData();
         this.figureData.CopyData(original.figureData);
         this.availablePieces = original.availablePieces;
         this.maxPieces = original.maxPieces;

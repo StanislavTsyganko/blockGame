@@ -10,6 +10,7 @@ public enum TileState
 {
     Normal,
     Destroyed,
+    Figure,
     None,
 }
 
@@ -129,8 +130,9 @@ public class GridManager : MonoBehaviour
 
     private void InstantLoadLevel(FigureData data)
     {
+        tileStates.Clear();
         LoadLayer(backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, CellTypes.Background);
-        LoadLayer(targetTilemapLayer, data.TargetTilesLayer, data.TargetTilesPaletteLayer);
+        LoadLayer(targetTilemapLayer, data.TargetTilesLayer, data.TargetTilesPaletteLayer, CellTypes.Target);
         gridLoaded = true;
         OnMapLoaded.Invoke();
     }
@@ -145,18 +147,15 @@ public class GridManager : MonoBehaviour
                 tilemap.SetTile(tile.position, palette[tile.tileID]);
                 tilemap.SetTileFlags(tile.position, TileFlags.None);
                 tilemap.SetColor(tile.position, tile.color);
+                if (cellType == CellTypes.Target)
+                    SetTileState(tile.position, TileState.Figure);
                 if (cellType == CellTypes.Background)
-                    SetTileState(tile.position, TileState.Normal);
+                {
+                    if(GetTileState(tile.position) != TileState.Figure)
+                        SetTileState(tile.position, TileState.Normal);
+                }
             }
-            //if (tile.position.x > maxX) maxX = tile.position.x;
-            //if (tile.position.y > maxY) maxY = tile.position.y;
-            //if (tile.position.x < minX) minX = tile.position.x;
-            //if (tile.position.y < minY) minY = tile.position.y;
         }
-        //Debug.LogError(maxX);
-        //Debug.LogError(maxY);
-        //Debug.LogError(minX);
-        //Debug.LogError(minY);
     }
 
     private IEnumerator AnimateLoadLevel(FigureData data)
@@ -233,9 +232,9 @@ public class GridManager : MonoBehaviour
             Vector3Int[] positions = GetPieceGridPositions(piece);
             foreach (Vector3Int pos in positions)
             {
-                if (IsTileExist(pos) && !IsTileDestroyed(pos))
+                if (GetTileState(pos) == TileState.Normal)
                 {
-                    backgroundTilemapLayer.SetTile(pos, previewCellTile);
+                    backgroundTilemapLayer.SetTile(pos, previewCellTile); // todo инкапсулировать слои
                     animationTilemapLayer.SetTile(pos, explodeTile);
                     SetTileState(pos, TileState.Destroyed);
                 }

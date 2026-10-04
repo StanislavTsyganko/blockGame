@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7171482f095fa7b4aa6282849c861fd5, type: 3}
-  m_Name: MainMenu
+  m_Name: Level_2
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  figureData: {fileID: 11400000, guid: cb2c4cb8b94d06a4fa728ec020daf6f4, type: 2}
+  figureData: {fileID: 11400000, guid: b9e44bd3c386b2040bf3c579ac4d5257, type: 2}
   availablePieces: []
   maxPieces: 0
   targetScore: 1000

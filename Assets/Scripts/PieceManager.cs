@@ -76,23 +76,31 @@ public class PieceManager : MonoBehaviour
         {
             if(activePieces.Count == 0)
             {
-                Debug.Log("activePieces.Count == 0");
-                return;
+                if (nextPiece == null)
+                {
+                    Debug.Log("activePieces.Count == 0");
+                    return;
+                }
             }
 
-            int pieceDataIndex = Random.Range(0, activePieces.Count - 1);
-            PieceData pieceData = activePieces[pieceDataIndex];
             if (nextPiece != null)
             {
                 activePiece = nextPiece;
                 activePiece.SetPosition(currentPieceSpawnOffset);
-                nextPiece = SpawnPiece(pieceData, nextPieceSpawnOffset);
-                activePieces.RemoveAt(pieceDataIndex);
-                nextPiece.SetVisible(true);
-                nextPiece.SetScale(new Vector3(0.5f, 0.5f, 1f));
+                if (activePieces.Count > 0)
+                {
+                    int pieceDataIndex = Random.Range(0, activePieces.Count - 1);
+                    PieceData pieceData = activePieces[pieceDataIndex];
+                    nextPiece = SpawnPiece(pieceData, nextPieceSpawnOffset);
+                    activePieces.RemoveAt(pieceDataIndex);
+                    nextPiece.SetVisible(true);
+                    nextPiece.SetScale(new Vector3(0.5f, 0.5f, 1f));
+                }
             }
-            else 
+            else
             {
+                int pieceDataIndex = Random.Range(0, activePieces.Count - 1);
+                PieceData pieceData = activePieces[pieceDataIndex];
                 activePiece = SpawnPiece(pieceData, currentPieceSpawnOffset);
                 activePieces.RemoveAt(pieceDataIndex);
                 if (activePieces.Count > 0)
