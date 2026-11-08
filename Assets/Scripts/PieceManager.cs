@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.Audio.ProcessorInstance;
 
 public class PieceManager : MonoBehaviour
 {
@@ -35,25 +33,33 @@ public class PieceManager : MonoBehaviour
         this.nextPieceSpawnOffset = nextPieceSpawnOffset;
         maxPieces = currentLevel.maxPieces;
         availablePieces.Clear();
-
-        if (currentLevel.availablePieces != null)
+        if (currentLevel.availablePieces != null && currentLevel.availablePieces.Length > 0)
             availablePieces.AddRange(currentLevel.availablePieces);
-
-        GeneratePieces();
+        else
+            return;
     }
 
     public void GeneratePieces()
     {
-        int targetCellsCount = currentLevel.figureData.BackgroundTilesLayer.Count - currentLevel.figureData.TargetTilesLayer.Count;
+        ClearAll();
+        float targetCellsCount = 0;
+        foreach (var (tile, count) in gridManager.uniqTiles)
+            targetCellsCount += count;
+        targetCellsCount *= 1.5f;
         int currentPieceCellsCount = 0;
         // todo checkIfPieceIsolated -> may be more pieces needed
-        for (int i = 0; i < maxPieces || currentPieceCellsCount < targetCellsCount * 1.2; i++)
+        for (int i = 0; i < maxPieces || currentPieceCellsCount < targetCellsCount; i++)
         {
-            PieceData randomPiece = GetRandomPiece();
-            if (randomPiece != null)
+            PieceData currPiece;
+            if (currentLevel.randomPieces)
+                currPiece = GetRandomPiece();
+            else
+                currPiece = availablePieces[i % availablePieces.Count];
+
+            if (currPiece != null)
             {
-                currentPieceCellsCount += randomPiece.BlockCount;
-                activePieces.Add(randomPiece);
+                currentPieceCellsCount += currPiece.BlockCount;
+                activePieces.Add(currPiece);
             }
         }
     }
@@ -72,13 +78,13 @@ public class PieceManager : MonoBehaviour
 
     public void ResolveCurrentPiece()
     {
-        if(activePiece == null)
+        if (activePiece == null)
         {
             if(activePieces.Count == 0)
             {
                 if (nextPiece == null)
                 {
-                    Debug.Log("activePieces.Count == 0");
+                    Debug.Log("No more pieces!!!");
                     return;
                 }
             }
@@ -89,33 +95,56 @@ public class PieceManager : MonoBehaviour
                 activePiece.SetPosition(currentPieceSpawnOffset);
                 if (activePieces.Count > 0)
                 {
-                    int pieceDataIndex = Random.Range(0, activePieces.Count - 1);
+                    int pieceDataIndex;
+                    if(currentLevel.randomPieces)
+                        pieceDataIndex = Random.Range(0, activePieces.Count - 1);
+                    else
+                        pieceDataIndex = 0;
                     PieceData pieceData = activePieces[pieceDataIndex];
                     nextPiece = SpawnPiece(pieceData, nextPieceSpawnOffset);
                     activePieces.RemoveAt(pieceDataIndex);
                     nextPiece.SetVisible(true);
                     nextPiece.SetScale(new Vector3(0.5f, 0.5f, 1f));
                 }
+                else
+                    nextPiece = null;
             }
             else
             {
-                int pieceDataIndex = Random.Range(0, activePieces.Count - 1);
+                int pieceDataIndex;
+                if (currentLevel.randomPieces)
+                    pieceDataIndex = Random.Range(0, activePieces.Count - 1);
+                else
+                    pieceDataIndex = 0;
                 PieceData pieceData = activePieces[pieceDataIndex];
                 activePiece = SpawnPiece(pieceData, currentPieceSpawnOffset);
                 activePieces.RemoveAt(pieceDataIndex);
                 if (activePieces.Count > 0)
                 {
-                    int nextPieceDataIndex = Random.Range(0, activePieces.Count);
+                    int nextPieceDataIndex;
+                    if (currentLevel.randomPieces)
+                        nextPieceDataIndex = Random.Range(0, activePieces.Count - 1);
+                    else
+                        nextPieceDataIndex = 0;
                     PieceData nextPieceData = activePieces[nextPieceDataIndex];
                     nextPiece = SpawnPiece(nextPieceData, nextPieceSpawnOffset);
                     activePieces.RemoveAt(nextPieceDataIndex);
                     nextPiece.SetVisible(true);
                     nextPiece.SetScale(new Vector3(0.5f, 0.5f, 1f));
                 }
+                else
+                    nextPiece = null;
             }
         }
-        activePiece.SetActive(true);
-        activePiece.SetScale(new Vector3(1f, 1f, 1f));
+        if (activePiece != null)
+        {
+            activePiece.SetActive(true);
+            activePiece.SetScale(new Vector3(1f, 1f, 1f));
+        }
+        else
+        {
+            Debug.LogError("activePiece NULL !!! activePieces.Count = " + activePieces.Count);
+        }
     }
 
     public PieceData GetRandomPiece()
@@ -151,9 +180,15 @@ public class PieceManager : MonoBehaviour
     public void ClearAll()
     {
         if (activePiece != null)
+        {
             activePiece.DestroyPiece();
+            activePiece = null;
+        }
         if (nextPiece != null)
+        {
             nextPiece.DestroyPiece();
+            nextPiece = null;
+        }
         activePieces.Clear();
     }
 }

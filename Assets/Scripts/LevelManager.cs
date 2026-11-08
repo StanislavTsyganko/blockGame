@@ -27,13 +27,15 @@ public class LevelManager : MonoBehaviour
     public float tileAppearDelay = 0.03f;
     public bool animateTiles = true;
 
-    int currentLevelID;
+    [SerializeField] public int currentLevelID;
 
     private void Start()
     {
+        #if !UNITY_EDITOR
+            currentLevelID = null;
+        #endif
         _UIManager.ShowLoading();
-        if (currentLevel == null)
-            ResolveCurrentLevel();
+        ResolveCurrentLevel();
         if (!currentLevel)
             Debug.LogError("Ошибка загркузки текущего уровня");
         LoadMainMenu();
@@ -42,9 +44,24 @@ public class LevelManager : MonoBehaviour
 
     public void OnPlayButtonClickedHandler()
     {
-        if (currentLevel == null) 
-            ResolveCurrentLevel();
         LoadLevel();
+    }
+
+    public void OnNextButtonClickedHandler()
+    {
+        LoadLevel();
+    }
+
+    public void OnRestartButtonClickedHandler()
+    {
+        LoadLevel(true);
+    }
+
+    public void ToMenu()
+    {
+        ClearAll();
+        _UIManager.ShowMainMenu();
+        LoadMainMenu();
     }
 
     public void LoadMainMenu()
@@ -89,26 +106,41 @@ public class LevelManager : MonoBehaviour
         gridManager.SpawnGrid();
     }
 
-    public void LoadLevel()
+    public void LoadLevel(bool reload = false)
     {
-        ResolveCurrentLevel();
-        if (!currentLevel)
+        if (!reload)
         {
-            _UIManager.OnNoMoreLevels();
+            ResolveCurrentLevel();
+            if (!currentLevel)
+            {
+                _UIManager.OnNoMoreLevels();
+                return;
+            }
+            gridManager.Initialize(currentLevel.figureData);
+
+            cameraScaler.AdaptCameraToLevel(currentLevel.figureData);
+            pieceManager.Initialize(currentLevel, gridManager, _UIManager.placementObject.transform.position, _UIManager.placementObject.transform.position + new Vector3(5,0,0)); //todo get next spawn position + level mode globalizating
+
         }
 
-        gridManager.Initialize(currentLevel.figureData);
-        //cameraScaler.Initialize(currentLevel, gridManager, _UIManager);
-        cameraScaler.AdaptCameraToLevel(currentLevel.figureData);
-        pieceManager.Initialize(currentLevel, gridManager, _UIManager.placementObject.transform.position, _UIManager.placementObject.transform.position + new Vector3(5,0,0)); //todo get next spawn position + level mode globalizating
-
         gridManager.SpawnGrid();
+        if(!gridManager.gridLoaded)
+            return;
+        pieceManager.GeneratePieces();
+        pieceManager.ResolveCurrentPiece();
+
+        _UIManager.GenerateLevelTarget(gridManager.uniqTiles);
+        _UIManager.ShowLevelTarget();
     }
+
 
     public void HoldPiecePlacedEvent(Piece piece)
     {
+        _UIManager.UpdateLevelTargetUI(gridManager.uniqTiles);
+
         if (CheckIfPassed())
         {
+            currentLevel = null;
             currentLevelID += 1;
             saveManager.SetProgressLevel(currentLevelID);
             saveManager.SaveGame();
@@ -125,20 +157,34 @@ public class LevelManager : MonoBehaviour
 
     public void ResolveCurrentLevel()
     {
+#if UNITY_EDITOR
+        if (currentLevel != null)
+            return;
+        if (currentLevelID >= 0)
+        {
+            currentLevel = levelSequenceData.GetLevel(currentLevelID);
+            return;
+        }
+#endif
         if (!saveManager)
             return;
-        saveManager.LoadGame();
-        currentLevelID = saveManager.GetProgress().currentLevelId;
-        if(!levelSequenceData)
+
+        GameProgress gameProgress = saveManager.GetProgress();
+        if (gameProgress == null)
+            return;
+        currentLevelID = gameProgress.currentLevelId;
+
+        if (!levelSequenceData)
             return;
         currentLevel = levelSequenceData.GetLevel(currentLevelID);
+
     }
 
     public bool CheckIfPassed()
     {
         int notDectroyedCount = gridManager.GetNotDestroyedBackgorund().Count();
 
-        if(notDectroyedCount == 0)
+        if (notDectroyedCount == 0)
            return true;
         return false;
     }

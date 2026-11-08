@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 using UnityEngine.WSA;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 public enum TileState
 {
@@ -21,6 +22,27 @@ public enum CellTypes
     Preview,
     Animation,
     None,
+}
+
+public struct TileInfo
+{
+    public TileBase tile;
+    public Color color;
+    public TileState state;
+
+    public TileInfo(TileBase tile, Color color, TileState state)
+    {
+        this.tile = tile;
+        this.color = color;
+        this.state = state;
+    }
+
+    public TileInfo(TileBase tile, Color color)
+    {
+        this.tile = tile;
+        this.color = color;
+        state = TileState.Normal;
+    }
 }
 
 public class GridManager : MonoBehaviour
@@ -42,7 +64,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private AnimatedTile explodeTile;
     [SerializeField] private Tilemap animationTilemapLayer;
 
-    private Dictionary<Vector3Int, TileState> tileStates = new Dictionary<Vector3Int, TileState>();
+    private Dictionary<Vector3Int, TileInfo> tilesInfo = new Dictionary<Vector3Int, TileInfo>(); //redo tileState to tile info and unite all info to know what kind of block destroyed
+    public Dictionary<TileInfo, int> uniqTiles = new Dictionary<TileInfo, int>();
 
     public bool gridLoaded = false;
     public int maxX = 0, maxY = 0, minX = 0, minY = 0;
@@ -80,7 +103,8 @@ public class GridManager : MonoBehaviour
 
     public void SpawnGrid()
     {
-        if(!currentFigureData)
+        ClearTilemaps();
+        if (!currentFigureData)
             return;
         if (animateTiles)
             StartCoroutine(AnimateLoadLevel(currentFigureData));
@@ -98,7 +122,7 @@ public class GridManager : MonoBehaviour
         Vector3Int[] positions = GetPieceGridPositions(piece);
         foreach (Vector3Int pos in positions)
         {
-            if (!backgroundTilemapLayer.HasTile(pos))
+            if (!backgroundTilemapLayer.HasTile(pos) || GetTileState(pos) != TileState.Normal)
                 continue;
 
             previewTilemapLayer.SetTile(pos, previewCellTile);
@@ -112,6 +136,7 @@ public class GridManager : MonoBehaviour
         backgroundTilemapLayer?.ClearAllTiles();
         targetTilemapLayer?.ClearAllTiles();
         previewTilemapLayer?.ClearAllTiles();
+        animationTilemapLayer?.ClearAllTiles();
     }
 
 
@@ -130,9 +155,10 @@ public class GridManager : MonoBehaviour
 
     private void InstantLoadLevel(FigureData data)
     {
-        tileStates.Clear();
-        LoadLayer(backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, CellTypes.Background);
+        tilesInfo.Clear();
+        uniqTiles.Clear();
         LoadLayer(targetTilemapLayer, data.TargetTilesLayer, data.TargetTilesPaletteLayer, CellTypes.Target);
+        LoadLayer(backgroundTilemapLayer, data.BackgroundTilesLayer, data.BackgroundTilesPaletteLayer, CellTypes.Background);
         gridLoaded = true;
         OnMapLoaded.Invoke();
     }
@@ -148,13 +174,38 @@ public class GridManager : MonoBehaviour
                 tilemap.SetTileFlags(tile.position, TileFlags.None);
                 tilemap.SetColor(tile.position, tile.color);
                 if (cellType == CellTypes.Target)
-                    SetTileState(tile.position, TileState.Figure);
+                {
+                    if (GetTileState(tile.position) == TileState.Normal)
+                    {
+                        TileInfo tileInfo = tilesInfo[tile.position];
+                        SetUniqTileCount(tileInfo.tile, tileInfo.color, false);
+                    }
+                    SetTileInfo(tile.position, palette[tile.tileID], tile.color, TileState.Figure);
+
+                }
                 if (cellType == CellTypes.Background)
                 {
-                    if(GetTileState(tile.position) != TileState.Figure)
-                        SetTileState(tile.position, TileState.Normal);
+                    if (GetTileState(tile.position) != TileState.Figure)
+                    {
+                        SetTileInfo(tile.position, palette[tile.tileID], tile.color, TileState.Normal);
+                        SetUniqTileCount(palette[tile.tileID], tile.color, true);
+                    }
                 }
             }
+        }
+    }
+
+    private void SetUniqTileCount(TileBase tile, Color color, bool increase = true)
+    {
+        var key = new TileInfo(tile, color);
+        if (!uniqTiles.TryGetValue(key, out int count) || count < 1)
+            uniqTiles[key] = 1;
+        else
+        {
+            if(increase)
+                uniqTiles[key] += 1;
+            else
+                uniqTiles[key] -= 1;
         }
     }
 
@@ -183,8 +234,6 @@ public class GridManager : MonoBehaviour
 
         gridLoaded = true;
         OnMapLoaded.Invoke();
-
-        Debug.Log($"[LevelManager] Анимация завершена. Тайлов: {allTiles.Count}");
     }
 
     private void CollectTilesForAnimation(FigureData data, Tilemap tilemap, List<TileData> tiles, TileBase[] palette, List<AnimatedTileData> list)
@@ -213,10 +262,8 @@ public class GridManager : MonoBehaviour
         Vector3Int[] positions = GetPieceGridPositions(piece);
         foreach (Vector3Int pos in positions)
         {
-            if (IsTileExist(pos) && !IsTileDestroyed(pos))
-            {
+            if (GetTileState(pos) == TileState.Normal)
                 return true;
-            }
         }
         return false;
     }
@@ -237,6 +284,8 @@ public class GridManager : MonoBehaviour
                     backgroundTilemapLayer.SetTile(pos, previewCellTile); // todo инкапсулировать слои
                     animationTilemapLayer.SetTile(pos, explodeTile);
                     SetTileState(pos, TileState.Destroyed);
+                    TileInfo tileInfo = tilesInfo[pos];
+                    SetUniqTileCount(tileInfo.tile, tileInfo.color, false);
                 }
             }
             OnPiecePlaced.Invoke(piece);
@@ -288,29 +337,38 @@ public class GridManager : MonoBehaviour
     public Vector3Int[] GetNotDestroyedBackgorund()
     {
         List<Vector3Int> positions = new List<Vector3Int>();
-        //foreach (TileData tileData in currentLevelData.BackgroundTilesLayer)
-        //{
-        //    TileState tileBackgroundState = GetTileState(tileData.position);
-        //    if (tileBackgroundState == TileState.Normal)
-        //        positions.Add(tileData.position);
-        //}
-        foreach (var (pos, tileState) in tileStates)
+        foreach (var (pos, tileInfo) in tilesInfo)
         {
-            if (tileState == TileState.Normal)
+            if (tileInfo.state == TileState.Normal)
                 positions.Add(pos);
         }
 
         return positions.ToArray();
     }
 
+    public void SetTileInfo(Vector3Int pos, TileInfo info)
+    {
+        tilesInfo[pos] = info;
+    }
+
+    public void SetTileInfo(Vector3Int pos, TileBase tile, Color color, TileState state)
+    {
+        TileInfo tileInfo = tilesInfo.TryGetValue(pos, out var value) ? value : new TileInfo(tile, color, state);
+        tilesInfo[pos] = tileInfo;
+    }
+
     public void SetTileState(Vector3Int pos, TileState state)
     {
-        tileStates[pos] = state;
+        if(GetTileState(pos) == TileState.None)
+            return;
+        TileInfo tileInfo = tilesInfo[pos];
+        tileInfo.state = state;
+        tilesInfo[pos] = tileInfo;
     }
 
     public TileState GetTileState(Vector3Int pos)
     {
-        return tileStates.TryGetValue(pos, out var state) ? state : TileState.None;
+        return tilesInfo.TryGetValue(pos, out var info) ? info.state : TileState.None;
     }
 
     public bool IsTileDestroyed(Vector3Int pos)

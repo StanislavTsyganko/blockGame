@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Level_2
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   figureData: {fileID: 11400000, guid: b9e44bd3c386b2040bf3c579ac4d5257, type: 2}
-  availablePieces: []
+  availablePieces:
+  - {fileID: 11400000, guid: f0d8661bf98aa9342b6c2b71c7c8a771, type: 2}
+  - {fileID: 11400000, guid: dd926d3f777535b4cab861581b0a795a, type: 2}
+  - {fileID: 11400000, guid: 8a2b6dec5b4c5da4bb8073d54c8d9039, type: 2}
   maxPieces: 0
   targetScore: 1000
   movesLimit: 30

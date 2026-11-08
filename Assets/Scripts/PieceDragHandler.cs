@@ -39,7 +39,7 @@ public class PieceDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         );
         mousePos.z = FIXED_Z;
 
-        piece.SetPosition(mousePos, null);
+        //piece.SetPosition(mousePos, null);
     }
 
     public void OnDrag(PointerEventData eventData)

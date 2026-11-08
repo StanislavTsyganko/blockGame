@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7171482f095fa7b4aa6282849c861fd5, type: 3}
+  m_Name: Level_3
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  figureData: {fileID: 11400000, guid: a9e3841a4b3aa71459cc0a5256028a0f, type: 2}
+  availablePieces:
+  - {fileID: 11400000, guid: ceb902770135a174496280517fd5f824, type: 2}
+  - {fileID: 11400000, guid: f0d8661bf98aa9342b6c2b71c7c8a771, type: 2}
+  - {fileID: 11400000, guid: dd926d3f777535b4cab861581b0a795a, type: 2}
+  maxPieces: 0
+  targetScore: 1000
+  movesLimit: 30
+  levelId: 0
+  levelDificulty: 

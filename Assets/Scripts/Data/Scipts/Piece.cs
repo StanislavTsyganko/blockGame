@@ -98,19 +98,30 @@ public class Piece
         if (composite != null) composite.GenerateGeometry();
     }
 
+    public bool IsNull()
+    {
+        return pieceObj == null;
+    }
+
     public void SetActive(bool active)
     {
+        if(IsNull())
+            return;
         isActive = active;
         SetVisible(active);
     }
 
     public void SetVisible(bool visible)
     {
+        if (IsNull())
+            return;
         pieceObj.SetActive(visible);
     }
 
     public void SetScale(Vector3 scale)
     {
+        if (IsNull())
+            return;
         pieceObj.transform.localScale = scale;
     }
 
@@ -120,6 +131,8 @@ public class Piece
     /// </summary>
     public void SetPosition(Vector3 coordinates, Tilemap tilemap = null)
     {
+        if (IsNull())
+            return;
         if (tilemap != null)
         {
             Vector3Int cellPos = tilemap.WorldToCell(coordinates);
@@ -149,16 +162,14 @@ public class Piece
         isPlaced = true;
         isActive = false;
         DestroyPiece();
-        Debug.Log("Piece destroyed");
     }
 
     public void DestroyPiece()
     {
-        if (pieceObj != null)
-        {
-            Object.Destroy(pieceObj);
-            pieceObj = null;
-        }
+        if (IsNull())
+            return;
+        Object.Destroy(pieceObj);
+        pieceObj = null;
     }
 
     // Вспомогательный метод для получения позиции на сетке (например, для превью)

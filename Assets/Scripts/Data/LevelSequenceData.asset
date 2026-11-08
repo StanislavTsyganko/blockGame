@@ -15,3 +15,5 @@ MonoBehaviour:
   levelsSequence:
   - {fileID: 11400000, guid: 9a13cf550f346bb4fa65be1f76a3e091, type: 2}
   - {fileID: 11400000, guid: 22f968cce64e0c74a9600e5fe67a519f, type: 2}
+  - {fileID: 11400000, guid: a787606592e51b8489268865645f4a81, type: 2}
+  - {fileID: 11400000, guid: 9a13cf550f346bb4fa65be1f76a3e091, type: 2}

@@ -65,7 +65,5 @@ public class CameraScaler : MonoBehaviour
                 _UIManager.SpawnFigurePlacementFrame(frameHeight, frameWidht, framePosition);
             }
         }
-
-        Debug.Log($"[CameraScaler] Камера настроена под уровень: {columns}x{rows}, size: {_camera.orthographicSize} {_camera}");
     }
 }

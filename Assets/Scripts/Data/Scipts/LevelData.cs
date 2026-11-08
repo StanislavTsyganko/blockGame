@@ -5,19 +5,14 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "NewLevelData", menuName = "Game levels/Level Data")]
 public class LevelData : ScriptableObject
 {
-    [Header("Layer 1 - Background / Grid")] // todo  Доабвть isActive -  и редактор для  ЛЕвелДаата для валидации уровня
+    [Header("Layer 1 - Background / Grid")]
     public FigureData figureData;
+    public bool isActive = false;
 
     [Header("Available Figures")]
     public PieceData[] availablePieces;
     public int maxPieces;
-
-    [Header("Win Conditions")]
-    public int targetScore = 1000;
-    public int movesLimit = 30;
-
-    public int levelId;
-    public string levelDificulty;
+    public bool randomPieces = false;
 
     public TileBase[] BackgroundTilesPaletteLayer => figureData.BackgroundTilesPaletteLayer;
     public List<TileData> BackgroundTilesLayer => figureData.BackgroundTilesLayer;
@@ -26,12 +21,11 @@ public class LevelData : ScriptableObject
 
     public void CopyData(LevelData original)
     {
-        this.figureData = new FigureData();
+        this.figureData = ScriptableObject.CreateInstance<FigureData>();
         this.figureData.CopyData(original.figureData);
         this.availablePieces = original.availablePieces;
         this.maxPieces = original.maxPieces;
-        this.targetScore = original.targetScore;
-        this.movesLimit = original.movesLimit;
-        this.levelDificulty = original.levelDificulty;
+        this.isActive = original.isActive;
+        this.randomPieces = original.randomPieces;
     }
 }
